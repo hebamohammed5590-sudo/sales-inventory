@@ -162,7 +162,15 @@ class LowStockNotificationTest extends TestCase
             'Stock remains above reorder level.'
         );
 
-        Notification::assertNothingSent();
+        Notification::assertNotSentTo(
+            $this->admin,
+            LowStockNotification::class
+        );
+
+        Notification::assertNotSentTo(
+            $this->manager,
+            LowStockNotification::class
+        );
     }
 
     public function test_notification_is_not_repeated_while_stock_remains_low(): void
@@ -274,6 +282,10 @@ class LowStockNotificationTest extends TestCase
         $notification = $this->admin
             ->fresh()
             ->notifications()
+            ->where(
+                'type',
+                LowStockNotification::class
+            )
             ->latest()
             ->first();
 
@@ -328,6 +340,14 @@ class LowStockNotificationTest extends TestCase
             'Stock increased.'
         );
 
-        Notification::assertNothingSent();
+        Notification::assertNotSentTo(
+            $this->admin,
+            LowStockNotification::class
+        );
+
+        Notification::assertNotSentTo(
+            $this->manager,
+            LowStockNotification::class
+        );
     }
 }

@@ -272,4 +272,202 @@ class InvoiceServiceTest extends TestCase
             $confirmedPurchase->fresh()->status
         );
     }
+
+    public function test_sales_invoice_can_override_product_unit_price(): void
+    {
+        $invoice = $this->service->create(
+            InvoiceType::Sale,
+            $this->user,
+            [
+                'customer_id' => $this->customer->id,
+
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+
+                        'quantity' => 2,
+
+                        'unit_price' => '80.50',
+                    ],
+                ],
+            ]
+        );
+
+        $item = $invoice->items->first();
+
+        $this->assertNotNull($item);
+
+        $this->assertSame(
+            '80.50',
+            (string) $item->unit_price
+        );
+
+        $this->assertSame(
+            '161.00',
+            (string) $item->line_total
+        );
+
+        $this->assertSame(
+            '161.00',
+            (string) $invoice->subtotal
+        );
+
+        $this->assertSame(
+            '161.00',
+            (string) $invoice->total
+        );
+    }
+
+    public function test_purchase_invoice_can_override_product_unit_price(): void
+    {
+        $invoice = $this->service->create(
+            InvoiceType::Purchase,
+            $this->user,
+            [
+                'supplier_id' => $this->supplier->id,
+
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+
+                        'quantity' => 3,
+
+                        'unit_price' => '45.25',
+                    ],
+                ],
+            ]
+        );
+
+        $item = $invoice->items->first();
+
+        $this->assertNotNull($item);
+
+        $this->assertSame(
+            '45.25',
+            (string) $item->unit_price
+        );
+
+        $this->assertSame(
+            '135.75',
+            (string) $item->line_total
+        );
+
+        $this->assertSame(
+            '135.75',
+            (string) $invoice->subtotal
+        );
+
+        $this->assertSame(
+            '135.75',
+            (string) $invoice->total
+        );
+    }
+
+    public function test_invoice_uses_product_price_when_unit_price_is_not_provided(): void
+    {
+        $invoice = $this->service->create(
+            InvoiceType::Sale,
+            $this->user,
+            [
+                'customer_id' => $this->customer->id,
+
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+
+                        'quantity' => 2,
+                    ],
+                ],
+            ]
+        );
+
+        $item = $invoice->items->first();
+
+        $this->assertNotNull($item);
+
+        $this->assertSame(
+            '100.00',
+            (string) $item->unit_price
+        );
+
+        $this->assertSame(
+            '200.00',
+            (string) $invoice->subtotal
+        );
+    }
+
+    public function test_overridden_unit_price_is_used_with_discount_and_tax(): void
+    {
+        Setting::set(
+            'tax_rate',
+            '14.00'
+        );
+
+        $invoice = $this->service->create(
+            InvoiceType::Sale,
+            $this->user,
+            [
+                'customer_id' => $this->customer->id,
+
+                'discount_type' => DiscountType::Fixed,
+
+                'discount_value' => '10.00',
+
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+
+                        'quantity' => 2,
+
+                        'unit_price' => '80.00',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertSame(
+            '160.00',
+            (string) $invoice->subtotal
+        );
+
+        $this->assertSame(
+            '10.00',
+            (string) $invoice->discount
+        );
+
+        $this->assertSame(
+            '21.00',
+            (string) $invoice->tax
+        );
+
+        $this->assertSame(
+            '171.00',
+            (string) $invoice->total
+        );
+    }
+
+    public function test_invoice_rejects_zero_unit_price(): void
+    {
+        $this->expectException(
+            ValidationException::class
+        );
+
+        $this->service->create(
+            InvoiceType::Sale,
+            $this->user,
+            [
+                'customer_id' => $this->customer->id,
+
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+
+                        'quantity' => 1,
+
+                        'unit_price' => '0.00',
+                    ],
+                ],
+            ]
+        );
+    }
 }

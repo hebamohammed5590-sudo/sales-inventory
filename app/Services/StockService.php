@@ -192,17 +192,6 @@ class StockService
         Product $product,
         User $user
     ): void {
-        // إذا كنا نفذنا العملية من خلال اختبارات LowStockNotification، نتجنب إرسال إشعار التعديل
-        // لكي لا تتعارض مع AssertNoSentNotifications التي يتوقعها الاختبار.
-        if (app()->runningUnitTests() && debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)) {
-            $isLowStockTest = collect(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15))
-                ->contains(fn ($trace) => str_contains($trace['class'] ?? '', 'LowStockNotificationTest'));
-
-            if ($isLowStockTest) {
-                return;
-            }
-        }
-
         $recipients = $this->notificationRecipients();
 
         if ($recipients->isEmpty()) {

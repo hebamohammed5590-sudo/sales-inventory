@@ -327,12 +327,20 @@ class InvoiceService
                 $productId
             );
 
-            $unitPrice = (int) $product->getRawOriginal(
-                $type === InvoiceType::Purchase
-                    ? 'cost_price'
-                    : 'sell_price'
-            );
+            $unitPrice = isset($item['unit_price'])
+    && $item['unit_price'] !== ''
+    ? $this->parseMoney($item['unit_price'])
+    : (int) $product->getRawOriginal(
+        $type === InvoiceType::Purchase
+            ? 'cost_price'
+            : 'sell_price'
+    );
 
+            if ($unitPrice <= 0) {
+                throw ValidationException::withMessages([
+                    "items.{$index}.unit_price" => 'Unit price must be greater than zero.',
+                ]);
+            }
             $quantity = (int) $quantity;
 
             $preparedItems[] = [

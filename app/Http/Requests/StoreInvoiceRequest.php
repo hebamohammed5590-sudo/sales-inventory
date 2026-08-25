@@ -90,6 +90,13 @@ class StoreInvoiceRequest extends FormRequest
                 'integer',
                 'min:1',
             ],
+
+            'items.*.unit_price' => [
+                'nullable',
+                'regex:/^\d+(?:\.\d{1,2})?$/',
+                'numeric',
+                'gt:0',
+            ],
         ];
     }
 
@@ -117,6 +124,12 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.quantity.integer' => 'Each quantity must be a whole number.',
 
             'items.*.quantity.min' => 'Each quantity must be at least one.',
+
+            'items.*.unit_price.regex' => 'Each unit price must be a valid amount with no more than two decimal places.',
+
+            'items.*.unit_price.numeric' => 'Each unit price must be a valid number.',
+
+            'items.*.unit_price.gt' => 'Each unit price must be greater than zero.',
 
             'discount_value.regex' => 'The discount must be a valid non-negative number with no more than two decimal places.',
         ];

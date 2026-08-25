@@ -99,6 +99,7 @@
                                             <td class="px-3 py-3">
                                                 <select
                                                     x-model="item.product_id"
+                                                    @change="setDefaultUnitPrice(item)"
                                                     :name="'items[' + index + '][product_id]'"
                                                     class="product-select block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                                     required
@@ -131,11 +132,16 @@
                                                 >
                                             </td>
 
-                                            <td
-                                                class="unit-price px-3 py-3 text-sm text-gray-700"
-                                                x-text="formatCents(unitPriceInCents(item))"
-                                            >
-                                                0.00
+                                            <td class="unit-price px-3 py-3 text-sm text-gray-700">
+                                                <input
+                                                    type="number"
+                                                    min="0.01"
+                                                    step="0.01"
+                                                    required
+                                                    x-model="item.unit_price"
+                                                    :name="'items[' + index + '][unit_price]'"
+                                                    class="block w-full rounded-md border-gray-300 shadow-sm"
+                                                >
                                             </td>
 
                                             <td

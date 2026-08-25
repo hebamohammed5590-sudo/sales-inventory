@@ -48,7 +48,8 @@ Alpine.data('invoiceForm', () => ({
             restoredItems.forEach((item) => {
                 this.addItem(
                     item.product_id ?? '',
-                    item.quantity ?? 1
+                    item.quantity ?? 1,
+                    item.unit_price ?? ''
                 );
             });
 
@@ -66,18 +67,26 @@ Alpine.data('invoiceForm', () => ({
         }
     },
 
-    addItem(productId = '', quantity = 1) {
+    addItem(productId = '', quantity = 1, unitPrice = '') {
         if (this.items.length >= 50) {
             return;
         }
 
-        this.items.push({
+        const item = {
             id: this.nextId++,
 
             product_id: String(productId),
 
             quantity: Number(quantity) || 1,
-        });
+
+            unit_price: String(unitPrice ?? ''),
+        };
+
+        if (item.product_id && item.unit_price === '') {
+            this.setDefaultUnitPrice(item);
+        }
+
+        this.items.push(item);
     },
 
     removeItem(itemId) {
@@ -131,20 +140,28 @@ Alpine.data('invoiceForm', () => ({
     },
 
     unitPriceInCents(item) {
+        return this.parseAmountToCents(
+            item.unit_price
+        );
+    },
+
+    setDefaultUnitPrice(item) {
         const product = this.findProduct(
             item.product_id
         );
 
         if (!product) {
-            return 0;
+            item.unit_price = '';
+
+            return;
         }
 
         const price = this.invoiceType === 'purchase'
             ? product.cost_price
             : product.sell_price;
 
-        return this.parseAmountToCents(
-            price
+        item.unit_price = this.formatCents(
+            this.parseAmountToCents(price)
         );
     },
 
