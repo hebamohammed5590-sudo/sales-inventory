@@ -102,7 +102,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['total'] / 100, 2) }}
+                        {{ money($report['total']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -171,7 +171,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-gray-900">
-                                        {{ $invoice->total }}
+                                        {{ money($invoice->getRawOriginal('total')) }}
                                         {{ $currency }}
                                     </td>
 
@@ -237,7 +237,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-gray-900">
-                                        {{ number_format($dailyTotal['total'] / 100, 2) }}
+                                        {{ money($dailyTotal['total']) }}
                                         {{ $currency }}
                                     </td>
                                 </tr>

@@ -14,7 +14,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($dashboard['today_sales'] / 100, 2) }}
+                        {{ money($dashboard['today_sales']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -25,7 +25,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($dashboard['monthly_sales'] / 100, 2) }}
+                        {{ money($dashboard['monthly_sales']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -36,7 +36,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($dashboard['inventory_value'] / 100, 2) }}
+                        {{ money($dashboard['inventory_value']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -266,7 +266,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-gray-900">
-                                        {{ number_format($invoice->total / 100, 2) }}
+                                        {{ money($invoice->getRawOriginal('total')) }}
                                         {{ $currency }}
                                     </td>
 
@@ -353,17 +353,17 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ number_format($invoice->total / 100, 2) }}
+                                        {{ money($invoice->getRawOriginal('total')) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-green-700">
-                                        {{ number_format($invoice->paidAmount() / 100, 2) }}
+                                        {{ money($invoice->paidAmountInCents()) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-orange-700">
-                                        {{ number_format($invoice->remainingAmount() / 100, 2) }}
+                                        {{ money($invoice->remainingAmountInCents()) }}
                                         {{ $currency }}
                                     </td>
 
@@ -373,7 +373,7 @@
                                                 'type' => $invoice->type->value,
                                                 'invoice' => $invoice,
                                             ]) }}"
-                                            class="font-weight text-indigo-600 hover:text-indigo-800"
+                                            class="font-medium text-indigo-600 hover:text-indigo-800"
                                         >
                                             {{ __('View') }}
                                         </a>

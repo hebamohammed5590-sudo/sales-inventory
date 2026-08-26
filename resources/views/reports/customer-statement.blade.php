@@ -113,7 +113,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['total_invoiced'] / 100, 2) }}
+                        {{ money($report['total_invoiced']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -124,7 +124,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-green-700">
-                        {{ number_format($report['total_paid'] / 100, 2) }}
+                        {{ money($report['total_paid']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -135,7 +135,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-orange-700">
-                        {{ number_format($report['balance'] / 100, 2) }}
+                        {{ money($report['balance']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -192,17 +192,17 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ $invoice->total }}
+                                        {{ money($invoice->getRawOriginal('total')) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-green-700">
-                                        {{ $invoice->paidAmount() }}
+                                        {{ money($invoice->paidAmountInCents()) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-orange-700">
-                                        {{ $invoice->remainingAmount() }}
+                                        {{ money($invoice->remainingAmountInCents()) }}
                                         {{ $currency }}
                                     </td>
 
@@ -284,7 +284,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-green-700">
-                                        {{ $payment->amount }}
+                                        {{ money($payment->getRawOriginal('amount')) }}
                                         {{ $currency }}
                                     </td>
 

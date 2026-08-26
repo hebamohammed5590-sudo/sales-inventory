@@ -53,7 +53,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['total_cost_value'] / 100, 2) }}
+                        {{ money($report['total_cost_value']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -64,7 +64,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['total_selling_value'] / 100, 2) }}
+                        {{ money($report['total_selling_value']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -137,12 +137,12 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ $product->cost_price }}
+                                        {{ money($product->getRawOriginal('cost_price')) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ $product->sell_price }}
+                                        {{ money($product->getRawOriginal('sell_price')) }}
                                         {{ $currency }}
                                     </td>
 

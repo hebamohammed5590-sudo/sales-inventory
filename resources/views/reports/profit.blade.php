@@ -74,7 +74,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['revenue'] / 100, 2) }}
+                        {{ money($report['revenue']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -85,7 +85,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
-                        {{ number_format($report['cost'] / 100, 2) }}
+                        {{ money($report['cost']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -96,7 +96,7 @@
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-green-700">
-                        {{ number_format($report['profit'] / 100, 2) }}
+                        {{ money($report['profit']) }}
                         {{ $currency }}
                     </p>
                 </div>
@@ -153,17 +153,17 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ number_format($product['revenue'] / 100, 2) }}
+                                        {{ money($product['revenue']) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ number_format($product['cost'] / 100, 2) }}
+                                        {{ money($product['cost']) }}
                                         {{ $currency }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-green-700">
-                                        {{ number_format($product['profit'] / 100, 2) }}
+                                        {{ money($product['profit']) }}
                                         {{ $currency }}
                                     </td>
                                 </tr>
