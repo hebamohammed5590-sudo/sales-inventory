@@ -19,7 +19,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $service->adjust($product, $admin, 5, 'Adding stock');
 
         $this->assertEquals(15, $product->fresh()->quantity);
@@ -30,7 +30,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $service->adjust($product, $admin, -3, 'Removing stock');
 
         $this->assertEquals(7, $product->fresh()->quantity);
@@ -41,7 +41,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $adjustment = $service->adjust($product, $admin, 5, 'Stock adjustment');
 
         $this->assertDatabaseHas('stock_movements', [
@@ -62,7 +62,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 5]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $service->adjust($product, $admin, -10, 'Too much out');
     }
 
@@ -73,7 +73,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 5]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $service->adjust($product, $admin, 0, 'Zero change');
     }
 
@@ -82,7 +82,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $adjustment = $service->adjust($product, $admin, 5, 'Source check');
 
         $movement = $adjustment->stockMovements()->first();
@@ -95,7 +95,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $service->adjust($product, $admin, 5, 'First');
         $service->adjust($product, $admin, -3, 'Second');
         $service->adjust($product, $admin, 2, 'Third');
@@ -110,7 +110,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $adjustment = $service->adjust($product, $admin, 5, 'Test');
 
         $movement = $adjustment->stockMovements()->first();
@@ -125,7 +125,7 @@ class StockServiceTest extends TestCase
         $admin = User::factory()->create();
         $product = Product::factory()->create(['quantity' => 10]);
 
-        $service = new StockService;
+        $service = app(StockService::class);
         $adjustment = $service->adjust($product, $admin, 5, 'Test');
 
         $movement = $adjustment->stockMovements()->first();

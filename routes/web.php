@@ -14,6 +14,7 @@ use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ActivityLogController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +41,13 @@ Route::middleware('auth')->group(function () {
             'edit',
         ]
     )->name('profile.edit');
+    Route::get(
+    '/activity-logs',
+    [
+        ActivityLogController::class,
+        'index',
+    ]
+)->name('activity-logs.index');
 
     Route::patch(
         '/profile',

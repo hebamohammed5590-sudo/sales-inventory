@@ -17,6 +17,10 @@ use Illuminate\Validation\ValidationException;
 
 class StockService
 {
+    public function __construct(
+        private readonly ActivityLogService $activityLogService
+    ) {}
+
     public function adjust(
         Product $product,
         User $user,
@@ -68,6 +72,26 @@ class StockService
                 $adjustment,
                 $lockedProduct,
                 $user
+            );
+
+            $this->activityLogService->record(
+                actor: $user,
+                action: 'stock.adjusted',
+                subject: $adjustment,
+                description: sprintf(
+                    '%s adjusted stock for %s by %+d.',
+                    $user->name,
+                    $lockedProduct->name,
+                    $quantityChange
+                ),
+                properties: [
+                    'product_id' => $lockedProduct->id,
+                    'product_name' => $lockedProduct->name,
+                    'quantity_change' => $quantityChange,
+                    'quantity_before' => $movement->quantity_before,
+                    'quantity_after' => $movement->quantity_after,
+                    'notes' => $notes,
+                ]
             );
 
             return $adjustment;

@@ -18,7 +18,8 @@ class InvoiceService
 {
     public function __construct(
         private readonly InvoiceNumberService $invoiceNumberService,
-        private readonly StockService $stockService
+        private readonly StockService $stockService,
+        private readonly ActivityLogService $activityLogService
     ) {}
 
     public function create(
@@ -129,6 +130,22 @@ class InvoiceService
                 ]);
             }
 
+            $this->activityLogService->record(
+                actor: $user,
+                action: 'invoice.created',
+                subject: $invoice,
+                description: sprintf(
+                    '%s created invoice %s.',
+                    $user->name,
+                    $invoice->invoice_number
+                ),
+                properties: [
+                    'invoice_type' => $invoice->type->value,
+                    'status' => $invoice->status->value,
+                    'total_in_cents' => (int) $invoice->getRawOriginal('total'),
+                ]
+            );
+
             return $invoice->load([
                 'items.product',
                 'customer',
@@ -187,6 +204,21 @@ class InvoiceService
                 'status' => InvoiceStatus::Confirmed,
                 'confirmed_at' => now(),
             ]);
+
+            $this->activityLogService->record(
+                actor: $user,
+                action: 'invoice.confirmed',
+                subject: $lockedInvoice,
+                description: sprintf(
+                    '%s confirmed invoice %s.',
+                    $user->name,
+                    $lockedInvoice->invoice_number
+                ),
+                properties: [
+                    'previous_status' => InvoiceStatus::Draft->value,
+                    'new_status' => InvoiceStatus::Confirmed->value,
+                ]
+            );
 
             return $lockedInvoice->refresh()->load([
                 'items.product',
@@ -255,6 +287,20 @@ class InvoiceService
                 'status' => InvoiceStatus::Cancelled,
                 'cancelled_at' => now(),
             ]);
+
+            $this->activityLogService->record(
+                actor: $user,
+                action: 'invoice.cancelled',
+                subject: $lockedInvoice,
+                description: sprintf(
+                    '%s cancelled invoice %s.',
+                    $user->name,
+                    $lockedInvoice->invoice_number
+                ),
+                properties: [
+                    'new_status' => InvoiceStatus::Cancelled->value,
+                ]
+            );
 
             return $lockedInvoice->refresh()->load([
                 'items.product',

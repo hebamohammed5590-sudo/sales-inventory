@@ -157,5 +157,20 @@
     "After": "بعد",
     "Sale": "بيع",
     "Purchase": "شراء",
-    "Notes": "ملاحظات"
+    "Notes": "ملاحظات",
+
+    "Activity Log": "سجل النشاط",
+    "Actor or description": "المنفذ أو الوصف",
+    "Action": "الإجراء",
+    "All Actions": "كل الإجراءات",
+    "Actor": "المنفذ",
+    "Subject": "العنصر المرتبط",
+    "Deleted User": "مستخدم محذوف",
+    "Unavailable": "غير متاح",
+    "No activity found.": "لا توجد أنشطة.",
+    "invoice created": "إنشاء فاتورة",
+    "invoice confirmed": "تأكيد فاتورة",
+    "invoice cancelled": "إلغاء فاتورة",
+    "payment recorded": "تسجيل دفعة",
+    "stock adjusted": "تعديل المخزون"
 }
