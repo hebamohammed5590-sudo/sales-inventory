@@ -282,7 +282,7 @@ class ProductController extends Controller
 
         $categories = Category::query()
             ->where('is_active', true)
-            ->orWhereKey($product->category_id)
+            ->orWhere('id', $product->category_id)
             ->orderBy('name')
             ->get();
 
