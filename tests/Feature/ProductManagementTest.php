@@ -226,29 +226,31 @@ class ProductManagementTest extends TestCase
         $this->assertDatabaseMissing('products', [
             'name' => 'Wireless Mouse',
         ]);
-    }public function test_admin_can_open_product_edit_page_with_inactive_current_category(): void
-{
-    $admin = User::factory()->create([
-        'role' => Role::Admin,
-    ]);
+    }
 
-    $inactiveCategory = Category::factory()
-        ->inactive()
-        ->create([
-            'name' => 'Archived Category',
+    public function test_admin_can_open_product_edit_page_with_inactive_current_category(): void
+    {
+        $admin = User::factory()->create([
+            'role' => Role::Admin,
         ]);
 
-    $product = Product::factory()->create([
-        'category_id' => $inactiveCategory->id,
-        'name' => 'Editable Product',
-    ]);
+        $inactiveCategory = Category::factory()
+            ->inactive()
+            ->create([
+                'name' => 'Archived Category',
+            ]);
 
-    $this->actingAs($admin)
-        ->get(route('products.edit', $product))
-        ->assertOk()
-        ->assertSee('Editable Product')
-        ->assertSee('Archived Category');
-}
+        $product = Product::factory()->create([
+            'category_id' => $inactiveCategory->id,
+            'name' => 'Editable Product',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('products.edit', $product))
+            ->assertOk()
+            ->assertSee('Editable Product')
+            ->assertSee('Archived Category');
+    }
 
     public function test_admin_can_update_product(): void
     {

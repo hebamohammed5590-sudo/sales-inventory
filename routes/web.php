@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ActivityLogController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,12 +42,12 @@ Route::middleware('auth')->group(function () {
         ]
     )->name('profile.edit');
     Route::get(
-    '/activity-logs',
-    [
-        ActivityLogController::class,
-        'index',
-    ]
-)->name('activity-logs.index');
+        '/activity-logs',
+        [
+            ActivityLogController::class,
+            'index',
+        ]
+    )->name('activity-logs.index');
 
     Route::patch(
         '/profile',
