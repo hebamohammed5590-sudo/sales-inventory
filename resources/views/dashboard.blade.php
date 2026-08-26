@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            Dashboard
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Today's Sales
+                        {{ __("Today's Sales") }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -21,7 +21,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        This Month's Sales
+                        {{ __("This Month's Sales") }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -32,7 +32,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Inventory Value
+                        {{ __('Inventory Value') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -43,7 +43,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Invoices Today
+                        {{ __('Invoices Today') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -53,7 +53,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Total Customers
+                        {{ __('Total Customers') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -75,11 +75,11 @@
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Monthly Sales
+                            {{ __('Monthly Sales') }}
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">
-                            Sales during the last 12 months.
+                            {{ __('Sales during the last 12 months.') }}
                         </p>
                     </div>
 
@@ -91,11 +91,11 @@
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Top Selling Products
+                            {{ __('Top Selling Products') }}
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">
-                            The five products with the highest sales quantity.
+                            {{ __('The five products with the highest sales quantity.') }}
                         </p>
                     </div>
 
@@ -107,11 +107,11 @@
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Sales by Category
+                            {{ __('Sales by Category') }}
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">
-                            Sales distribution across product categories.
+                            {{ __('Sales distribution across product categories.') }}
                         </p>
                     </div>
 
@@ -123,11 +123,11 @@
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Sales vs Purchases
+                            {{ __('Sales vs Purchases') }}
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">
-                            Monthly comparison for the last six months.
+                            {{ __('Monthly comparison for the last six months.') }}
                         </p>
                     </div>
 
@@ -140,7 +140,7 @@
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <div class="mb-6 flex items-center justify-between">
                     <h3 class="text-lg font-semibold text-gray-800">
-                        Low Stock Products
+                        {{ __('Low Stock Products') }}
                     </h3>
 
                     @can('viewAny', \App\Models\Product::class)
@@ -148,7 +148,7 @@
                             href="{{ route('products.index') }}"
                             class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
                         >
-                            View Products
+                            {{ __('View Products') }}
                         </a>
                     @endcan
                 </div>
@@ -158,19 +158,19 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Product
+                                    {{ __('Product') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    SKU
+                                    {{ __('SKU') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Current Stock
+                                    {{ __('Current Stock') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Reorder Level
+                                    {{ __('Reorder Level') }}
                                 </th>
                             </tr>
                         </thead>
@@ -202,7 +202,7 @@
                                         colspan="4"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No low stock products.
+                                        {{ __('No low stock products.') }}
                                     </td>
                                 </tr>
                             @endforelse
@@ -213,7 +213,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Latest Invoices
+                    {{ __('Latest Invoices') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -221,27 +221,27 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice Number
+                                    {{ __('Invoice Number') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Type
+                                    {{ __('Type') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Customer / Supplier
+                                    {{ __('Customer / Supplier') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Status
+                                    {{ __('Status') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Action
+                                    {{ __('Action') }}
                                 </th>
                             </tr>
                         </thead>
@@ -254,7 +254,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($invoice->type->value)->title() }}
+                                        {{ __(str($invoice->type->value)->title()->toString()) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
@@ -271,7 +271,12 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($invoice->status->value)->replace('_', ' ')->title() }}
+                                        {{ __(
+                                            str($invoice->status->value)
+                                                ->replace('_', ' ')
+                                                ->title()
+                                                ->toString()
+                                        ) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm">
@@ -282,7 +287,7 @@
                                             ]) }}"
                                             class="font-medium text-indigo-600 hover:text-indigo-800"
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -292,7 +297,7 @@
                                         colspan="6"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No invoices found.
+                                        {{ __('No invoices found.') }}
                                     </td>
                                 </tr>
                             @endforelse
@@ -303,7 +308,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Unpaid and Partially Paid Invoices
+                    {{ __('Unpaid and Partially Paid Invoices') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -311,27 +316,27 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice Number
+                                    {{ __('Invoice Number') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Type
+                                    {{ __('Type') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Paid
+                                    {{ __('Paid') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Remaining
+                                    {{ __('Remaining') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Action
+                                    {{ __('Action') }}
                                 </th>
                             </tr>
                         </thead>
@@ -344,7 +349,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($invoice->type->value)->title() }}
+                                        {{ __(str($invoice->type->value)->title()->toString()) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
@@ -370,7 +375,7 @@
                                             ]) }}"
                                             class="font-weight text-indigo-600 hover:text-indigo-800"
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -380,7 +385,7 @@
                                         colspan="6"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No unpaid invoices.
+                                        {{ __('No unpaid invoices.') }}
                                     </td>
                                 </tr>
                             @endforelse

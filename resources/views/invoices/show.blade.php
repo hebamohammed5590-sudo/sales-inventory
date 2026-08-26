@@ -4,9 +4,9 @@
             <div>
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
                     @if ($invoiceType === \App\Enums\InvoiceType::Sale)
-                        Sales Invoice
+                        {{ __('Sales Invoice') }}
                     @else
-                        Purchase Invoice
+                        {{ __('Purchase Invoice') }}
                     @endif
 
                     {{ $invoice->invoice_number }}
@@ -15,16 +15,17 @@
 
             <div class="flex flex-wrap items-center gap-3">
                 <a
-    href="{{ route('invoices.print', [
-        'type' => $invoiceType->value,
-        'invoice' => $invoice,
-    ]) }}"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
->
-    Print Invoice
-</a>
+                    href="{{ route('invoices.print', [
+                        'type' => $invoiceType->value,
+                        'invoice' => $invoice,
+                    ]) }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                >
+                    {{ __('Print Invoice') }}
+                </a>
+
                 @can('confirm', $invoice)
                     <form
                         method="POST"
@@ -32,14 +33,18 @@
                             'type' => $invoiceType->value,
                             'invoice' => $invoice,
                         ]) }}"
+                        x-data="{ submitting: false }"
+                        @submit="submitting = true"
                     >
                         @csrf
 
                         <button
                             type="submit"
+                            :disabled="submitting"
+                            :class="{ 'opacity-50 cursor-not-allowed': submitting }"
                             class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
                         >
-                            Confirm Invoice
+                            {{ __('Confirm Invoice') }}
                         </button>
                     </form>
                 @endcan
@@ -51,15 +56,19 @@
                             'type' => $invoiceType->value,
                             'invoice' => $invoice,
                         ]) }}"
-                        onsubmit="return confirm('Are you sure you want to cancel this invoice?')"
+                        onsubmit="return confirm('{{ __('Are you sure you want to cancel this invoice?') }}')"
+                        x-data="{ submitting: false }"
+                        @submit="submitting = true"
                     >
                         @csrf
 
                         <button
                             type="submit"
+                            :disabled="submitting"
+                            :class="{ 'opacity-50 cursor-not-allowed': submitting }"
                             class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
                         >
-                            Cancel Invoice
+                            {{ __('Cancel Invoice') }}
                         </button>
                     </form>
                 @endcan
@@ -70,7 +79,7 @@
                     ]) }}"
                     class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
                 >
-                    Back to Invoices
+                    {{ __('Back to Invoices') }}
                 </a>
             </div>
         </div>
@@ -98,13 +107,13 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Invoice Information
+                    {{ __('Invoice Information') }}
                 </h3>
 
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <div>
                         <p class="text-sm text-gray-500">
-                            Invoice Number
+                            {{ __('Invoice Number') }}
                         </p>
 
                         <p class="mt-1 font-medium text-gray-900">
@@ -115,9 +124,9 @@
                     <div>
                         <p class="text-sm text-gray-500">
                             @if ($invoiceType === \App\Enums\InvoiceType::Sale)
-                                Customer
+                                {{ __('Customer') }}
                             @else
-                                Supplier
+                                {{ __('Supplier') }}
                             @endif
                         </p>
 
@@ -132,7 +141,7 @@
 
                     <div>
                         <p class="text-sm text-gray-500">
-                            Invoice Date
+                            {{ __('Invoice Date') }}
                         </p>
 
                         <p class="mt-1 font-medium text-gray-900">
@@ -142,7 +151,7 @@
 
                     <div>
                         <p class="text-sm text-gray-500">
-                            Status
+                            {{ __('Status') }}
                         </p>
 
                         @php
@@ -165,13 +174,13 @@
                         @endphp
 
                         <span class="mt-2 inline-flex rounded-full px-3 py-1 text-sm {{ $statusClasses }}">
-                            {{ str($invoice->status->value)->replace('_', ' ')->title() }}
+                            {{ __('validation.attributes.' . $invoice->status->value) ?? str($invoice->status->value)->replace('_', ' ')->title() }}
                         </span>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">
-                            Created By
+                            {{ __('Created By') }}
                         </p>
 
                         <p class="mt-1 font-medium text-gray-900">
@@ -182,7 +191,7 @@
                     @if ($invoice->confirmed_at)
                         <div>
                             <p class="text-sm text-gray-500">
-                                Confirmed At
+                                {{ __('Confirmed At') }}
                             </p>
 
                             <p class="mt-1 font-medium text-gray-900">
@@ -194,7 +203,7 @@
                     @if ($invoice->cancelled_at)
                         <div>
                             <p class="text-sm text-gray-500">
-                                Cancelled At
+                                {{ __('Cancelled At') }}
                             </p>
 
                             <p class="mt-1 font-medium text-gray-900">
@@ -207,7 +216,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Invoice Items
+                    {{ __('Invoice Items') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -215,23 +224,23 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Product
+                                    {{ __('Product') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    SKU
+                                    {{ __('SKU') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Quantity
+                                    {{ __('Quantity') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Unit Price
+                                    {{ __('Unit Price') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Line Total
+                                    {{ __('Line Total') }}
                                 </th>
                             </tr>
                         </thead>
@@ -248,15 +257,15 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ $item->quantity }}
+                                        {{ number_format($item->quantity, 2) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ $item->unit_price }}
+                                        {{ number_format($item->unit_price, 2) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-gray-900">
-                                        {{ $item->line_total }}
+                                        {{ number_format($item->line_total, 2) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -269,61 +278,61 @@
                 <div class="ml-auto max-w-sm space-y-3">
                     <div class="flex justify-between text-gray-700">
                         <span>
-                            Subtotal
+                            {{ __('Subtotal') }}
                         </span>
 
                         <span>
-                            {{ $invoice->subtotal }}
-                        </span>
-                    </div>
-
-                    <div class="flex justify-between text-gray-700">
-                        <span>
-                            Discount
-                        </span>
-
-                        <span>
-                            {{ $invoice->discount }}
+                            {{ number_format($invoice->subtotal, 2) }}
                         </span>
                     </div>
 
                     <div class="flex justify-between text-gray-700">
                         <span>
-                            Tax
+                            {{ __('Discount') }}
                         </span>
 
                         <span>
-                            {{ $invoice->tax }}
+                            {{ number_format($invoice->discount, 2) }}
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between text-gray-700">
+                        <span>
+                            {{ __('Tax') }}
+                        </span>
+
+                        <span>
+                            {{ number_format($invoice->tax, 2) }}
                         </span>
                     </div>
 
                     <div class="flex justify-between border-t pt-3 text-lg font-semibold text-gray-900">
                         <span>
-                            Total
+                            {{ __('Total') }}
                         </span>
 
                         <span>
-                            {{ $invoice->total }}
+                            {{ number_format($invoice->total, 2) }}
                         </span>
                     </div>
 
                     <div class="flex justify-between text-green-700">
                         <span>
-                            Paid
+                            {{ __('Paid') }}
                         </span>
 
                         <span>
-                            {{ $invoice->paidAmount() }}
+                            {{ number_format($invoice->paidAmount(), 2) }}
                         </span>
                     </div>
 
                     <div class="flex justify-between font-semibold text-orange-700">
                         <span>
-                            Remaining
+                            {{ __('Remaining') }}
                         </span>
 
                         <span>
-                            {{ $invoice->remainingAmount() }}
+                            {{ number_format($invoice->remainingAmount(), 2) }}
                         </span>
                     </div>
                 </div>
@@ -341,7 +350,7 @@
             )
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Record Payment
+                        {{ __('Record Payment') }}
                     </h3>
 
                     <form
@@ -351,13 +360,15 @@
                             'invoice' => $invoice,
                         ]) }}"
                         class="grid gap-6 md:grid-cols-2"
+                        x-data="{ submitting: false }"
+                        @submit="submitting = true"
                     >
                         @csrf
 
                         <div>
                             <x-input-label
                                 for="amount"
-                                value="Amount"
+                                :value="__('Amount')"
                             />
 
                             <x-text-input
@@ -372,8 +383,8 @@
                             />
 
                             <p class="mt-2 text-sm text-gray-500">
-                                Remaining balance:
-                                {{ $invoice->remainingAmount() }}
+                                {{ __('Remaining balance:') }}
+                                {{ number_format($invoice->remainingAmount(), 2) }}
                             </p>
 
                             <x-input-error
@@ -385,7 +396,7 @@
                         <div>
                             <x-input-label
                                 for="method"
-                                value="Payment Method"
+                                :value="__('Payment Method')"
                             />
 
                             <select
@@ -395,7 +406,7 @@
                                 required
                             >
                                 <option value="">
-                                    Select payment method
+                                    {{ __('Select payment method') }}
                                 </option>
 
                                 @foreach (\App\Enums\PaymentMethod::cases() as $method)
@@ -419,7 +430,7 @@
                         <div>
                             <x-input-label
                                 for="reference"
-                                value="Reference"
+                                :value="__('Reference')"
                             />
 
                             <x-text-input
@@ -428,7 +439,7 @@
                                 type="text"
                                 class="mt-1 block w-full"
                                 :value="old('reference')"
-                                placeholder="Optional payment reference"
+                                placeholder="{{ __('Optional payment reference') }}"
                             />
 
                             <x-input-error
@@ -440,7 +451,7 @@
                         <div>
                             <x-input-label
                                 for="paid_at"
-                                value="Payment Date"
+                                :value="__('Payment Date')"
                             />
 
                             <x-text-input
@@ -463,7 +474,7 @@
                         <div class="md:col-span-2">
                             <x-input-label
                                 for="payment_notes"
-                                value="Notes"
+                                :value="__('Notes')"
                             />
 
                             <textarea
@@ -481,8 +492,11 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <x-primary-button>
-                                Record Payment
+                            <x-primary-button
+                                ::disabled="submitting"
+                                ::class="{ 'opacity-50 cursor-not-allowed': submitting }"
+                            >
+                                {{ __('Record Payment') }}
                             </x-primary-button>
                         </div>
                     </form>
@@ -492,7 +506,7 @@
             @if ($invoice->payments->isNotEmpty())
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Payment History
+                        {{ __('Payment History') }}
                     </h3>
 
                     <div class="overflow-x-auto">
@@ -500,23 +514,23 @@
                             <thead>
                                 <tr>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Amount
+                                        {{ __('Amount') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Method
+                                        {{ __('Method') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Reference
+                                        {{ __('Reference') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Paid At
+                                        {{ __('Paid At') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Recorded By
+                                        {{ __('Recorded By') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -525,7 +539,7 @@
                                 @foreach ($invoice->payments as $payment)
                                     <tr>
                                         <td class="px-4 py-3 text-sm font-medium text-green-700">
-                                            {{ $payment->amount }}
+                                            {{ number_format($payment->amount, 2) }}
                                         </td>
 
                                         <td class="px-4 py-3 text-sm text-gray-600">
@@ -554,7 +568,7 @@
             @if ($invoice->notes)
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-3 text-lg font-semibold text-gray-800">
-                        Notes
+                        {{ __('Notes') }}
                     </h3>
 
                     <p class="whitespace-pre-line text-gray-700">
@@ -566,7 +580,7 @@
             @if ($invoice->stockMovements->isNotEmpty())
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Stock Movements
+                        {{ __('Stock Movements') }}
                     </h3>
 
                     <div class="overflow-x-auto">
@@ -574,23 +588,23 @@
                             <thead>
                                 <tr>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Type
+                                        {{ __('Type') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Quantity Change
+                                        {{ __('Quantity Change') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Before
+                                        {{ __('Before') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        After
+                                        {{ __('After') }}
                                     </th>
 
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                        User
+                                        {{ __('User') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -605,21 +619,21 @@
                                         <td class="px-4 py-3 text-sm font-medium">
                                             @if ($movement->quantity_change > 0)
                                                 <span class="text-green-700">
-                                                    +{{ $movement->quantity_change }}
+                                                    +{{ number_format($movement->quantity_change, 2) }}
                                                 </span>
                                             @else
                                                 <span class="text-red-700">
-                                                    {{ $movement->quantity_change }}
+                                                    {{ number_format($movement->quantity_change, 2) }}
                                                 </span>
                                             @endif
                                         </td>
 
                                         <td class="px-4 py-3 text-sm text-gray-600">
-                                            {{ $movement->quantity_before }}
+                                            {{ number_format($movement->quantity_before, 2) }}
                                         </td>
 
                                         <td class="px-4 py-3 text-sm text-gray-600">
-                                            {{ $movement->quantity_after }}
+                                            {{ number_format($movement->quantity_after, 2) }}
                                         </td>
 
                                         <td class="px-4 py-3 text-sm text-gray-600">

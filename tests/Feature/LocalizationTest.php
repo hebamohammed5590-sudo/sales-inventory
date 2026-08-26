@@ -6,6 +6,10 @@ use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Enums\InvoiceType;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Services\InvoiceService;
 
 class LocalizationTest extends TestCase
 {
@@ -202,6 +206,11 @@ class LocalizationTest extends TestCase
             'الإعدادات',
             __('Settings')
         );
+
+        $this->assertSame(
+            'العنوان',
+            __('Address')
+        );
     }
 
     public function test_invalid_session_locale_falls_back_to_english(): void
@@ -328,5 +337,102 @@ class LocalizationTest extends TestCase
         $response->assertSee(
             'لوحة التحكم'
         );
+    }
+
+    public function test_arabic_dashboard_displays_translated_metrics(): void
+    {
+        $response = $this
+            ->actingAs($this->admin)
+            ->withSession([
+                'locale' => 'ar',
+            ])
+            ->get(route('dashboard'));
+
+        $response->assertOk();
+
+        $response->assertSee('مبيعات اليوم');
+
+        $response->assertSee('المبيعات الشهرية');
+
+        $response->assertSee('المنتجات منخفضة المخزون');
+    }
+
+    public function test_arabic_customer_create_page_displays_translated_fields(): void
+    {
+        $response = $this
+            ->actingAs($this->admin)
+            ->withSession([
+                'locale' => 'ar',
+            ])
+            ->get(route('customers.create'));
+
+        $response->assertOk();
+
+        $response->assertSee('الاسم');
+
+        $response->assertSee('الهاتف');
+
+        $response->assertSee('العنوان');
+
+        $response->assertSee('ملاحظات');
+    }
+
+    public function test_arabic_invoice_show_and_print_pages_are_translated(): void
+    {
+        $customer = Customer::factory()->create();
+
+        $product = Product::factory()->create([
+            'quantity' => 10,
+        ]);
+
+        $invoice = app(InvoiceService::class)->create(
+            InvoiceType::Sale,
+            $this->admin,
+            [
+                'customer_id' => $customer->id,
+
+                'items' => [
+                    [
+                        'product_id' => $product->id,
+                        'quantity' => 1,
+                    ],
+                ],
+            ]
+        );
+
+        $showResponse = $this
+            ->actingAs($this->admin)
+            ->withSession([
+                'locale' => 'ar',
+            ])
+            ->get(route('invoices.show', [
+                'type' => InvoiceType::Sale->value,
+                'invoice' => $invoice,
+            ]));
+
+        $showResponse->assertOk();
+
+        $showResponse->assertSee('بيانات الفاتورة');
+
+        $showResponse->assertSee('العميل');
+
+        $showResponse->assertSee('سعر الوحدة');
+
+        $printResponse = $this
+            ->withSession([
+                'locale' => 'ar',
+            ])
+            ->get(route('invoices.print', [
+                'type' => InvoiceType::Sale->value,
+                'invoice' => $invoice,
+            ]));
+
+        $printResponse->assertOk();
+
+        $printResponse->assertSee('طباعة الفاتورة');
+
+        $printResponse->assertSee('بيانات العميل');
+
+        $printResponse->assertSee('سعر الوحدة');
     }
 }

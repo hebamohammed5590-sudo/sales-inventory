@@ -201,7 +201,7 @@
             ]) }}"
             class="button button-secondary"
         >
-            Back to Invoice
+            {{ __('Back to Invoice') }}
         </a>
 
         <button
@@ -209,7 +209,7 @@
             class="button"
             onclick="window.print()"
         >
-            Print Invoice
+            {{ __('Print Invoice') }}
         </button>
     </div>
 
@@ -235,7 +235,7 @@
 
             <div>
                 <h2 class="invoice-title">
-                    {{ $isSale ? 'Sales Invoice' : 'Purchase Invoice' }}
+                    {{ __($isSale ? 'Sales Invoice' : 'Purchase Invoice') }}
                 </h2>
 
                 <div class="text-right muted">
@@ -247,23 +247,23 @@
         <section class="details">
             <div class="details-card">
                 <h3>
-                    {{ $isSale ? 'Customer Information' : 'Supplier Information' }}
+                    {{ __($isSale ? 'Customer Information' : 'Supplier Information') }}
                 </h3>
 
                 <div class="detail-row">
-                    <strong>Name:</strong>
+                    <strong>{{ __('Name') }}:</strong>
 
                     {{ $party?->name ?? '-' }}
                 </div>
 
                 <div class="detail-row">
-                    <strong>Phone:</strong>
+                    <strong>{{ __('Phone') }}:</strong>
 
                     {{ $party?->phone ?? '-' }}
                 </div>
 
                 <div class="detail-row">
-                    <strong>Email:</strong>
+                    <strong>{{ __('Email') }}:</strong>
 
                     {{ $party?->email ?? '-' }}
                 </div>
@@ -271,17 +271,17 @@
 
             <div class="details-card">
                 <h3>
-                    Invoice Information
+                    {{ __('Invoice Information') }}
                 </h3>
 
                 <div class="detail-row">
-                    <strong>Invoice Number:</strong>
+                    <strong>{{ __('Invoice Number') }}:</strong>
 
                     {{ $invoice->invoice_number }}
                 </div>
 
                 <div class="detail-row">
-                    <strong>Date:</strong>
+                    <strong>{{ __('Date') }}:</strong>
 
                     {{
                         $invoice->invoice_date instanceof \DateTimeInterface
@@ -291,13 +291,18 @@
                 </div>
 
                 <div class="detail-row">
-                    <strong>Status:</strong>
+                    <strong>{{ __('Status') }}:</strong>
 
-                    {{ ucfirst($invoice->status->value) }}
+                    {{ __(
+                        str($invoice->status->value)
+                            ->replace('_', ' ')
+                            ->title()
+                            ->toString()
+                    ) }}
                 </div>
 
                 <div class="detail-row">
-                    <strong>Created By:</strong>
+                    <strong>{{ __('Created By') }}:</strong>
 
                     {{ $invoice->user?->name ?? '-' }}
                 </div>
@@ -312,23 +317,23 @@
                     </th>
 
                     <th>
-                        Product
+                        {{ __('Product') }}
                     </th>
 
                     <th>
-                        SKU
+                        {{ __('SKU') }}
                     </th>
 
                     <th class="text-right">
-                        Quantity
+                        {{ __('Quantity') }}
                     </th>
 
                     <th class="text-right">
-                        Unit Price
+                        {{ __('Unit Price') }}
                     </th>
 
                     <th class="text-right">
-                        Total
+                        {{ __('Total') }}
                     </th>
                 </tr>
             </thead>
@@ -366,7 +371,7 @@
 
         <section class="totals">
             <div class="total-row">
-                <span>Subtotal</span>
+                <span>{{ __('Subtotal') }}</span>
 
                 <span>
                     {{ $invoice->subtotal }} {{ $currencySymbol }}
@@ -374,7 +379,7 @@
             </div>
 
             <div class="total-row">
-                <span>Discount</span>
+                <span>{{ __('Discount') }}</span>
 
                 <span>
                     {{ $invoice->discount }} {{ $currencySymbol }}
@@ -382,7 +387,7 @@
             </div>
 
             <div class="total-row">
-                <span>Tax</span>
+                <span>{{ __('Tax') }}</span>
 
                 <span>
                     {{ $invoice->tax }} {{ $currencySymbol }}
@@ -390,7 +395,7 @@
             </div>
 
             <div class="total-row grand-total">
-                <span>Total</span>
+                <span>{{ __('Total') }}</span>
 
                 <span>
                     {{ $invoice->total }} {{ $currencySymbol }}
@@ -398,7 +403,7 @@
             </div>
 
             <div class="total-row">
-                <span>Paid</span>
+                <span>{{ __('Paid') }}</span>
 
                 <span>
                     {{ $invoice->paidAmount() }} {{ $currencySymbol }}
@@ -406,7 +411,7 @@
             </div>
 
             <div class="total-row remaining">
-                <span>Remaining</span>
+                <span>{{ __('Remaining') }}</span>
 
                 <span>
                     {{ $invoice->remainingAmount() }} {{ $currencySymbol }}
