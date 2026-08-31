@@ -117,14 +117,14 @@ class DashboardQueryCountTest extends TestCase
         $response->assertOk();
 
         $this->assertLessThan(
-            28,
+            20,
 
             count(
                 $queries
             ),
 
             sprintf(
-                "Dashboard executed %d queries; expected fewer than 28.\n\n%s",
+                "Dashboard executed %d queries; expected fewer than 20.\n\n%s",
 
                 count(
                     $queries
@@ -168,10 +168,10 @@ class DashboardQueryCountTest extends TestCase
         $response->assertOk();
 
         $this->assertLessThan(
-            28,
+            20,
             count($queries),
             sprintf(
-                "Dashboard with 10 invoices executed %d queries; expected fewer than 28.\n\n%s",
+                "Dashboard with 10 invoices executed %d queries; expected fewer than 20.\n\n%s",
                 count($queries),
                 implode("\n", $queries)
             )
@@ -209,14 +209,14 @@ class DashboardQueryCountTest extends TestCase
         $response->assertOk();
 
         $this->assertLessThan(
-            28,
+            20,
 
             count(
                 $queries
             ),
 
             sprintf(
-                "Cashier dashboard executed %d queries; expected fewer than 28.\n\n%s",
+                "Cashier dashboard executed %d queries; expected fewer than 20.\n\n%s",
 
                 count(
                     $queries

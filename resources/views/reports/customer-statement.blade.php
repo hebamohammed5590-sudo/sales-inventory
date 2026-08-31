@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Customer Statement:
+                {{ __('Customer Statement') }}:
                 {{ $report['customer']->name }}
             </h2>
 
@@ -10,7 +10,7 @@
                 href="{{ route('reports.index') }}"
                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
             >
-                Back to Reports
+                {{ __('Back to Reports') }}
             </a>
         </div>
     </x-slot>
@@ -21,7 +21,7 @@
                 <div class="grid gap-6 md:grid-cols-3">
                     <div>
                         <p class="text-sm font-medium text-gray-500">
-                            Customer
+                            {{ __('Customer') }}
                         </p>
 
                         <p class="mt-2 text-lg font-semibold text-gray-900">
@@ -31,7 +31,7 @@
 
                     <div>
                         <p class="text-sm font-medium text-gray-500">
-                            Phone
+                            {{ __('Phone') }}
                         </p>
 
                         <p class="mt-2 text-lg font-semibold text-gray-900">
@@ -41,7 +41,7 @@
 
                     <div>
                         <p class="text-sm font-medium text-gray-500">
-                            Email
+                            {{ __('Email') }}
                         </p>
 
                         <p class="mt-2 text-lg font-semibold text-gray-900">
@@ -62,7 +62,7 @@
                     <div>
                         <x-input-label
                             for="from"
-                            value="From"
+                            :value="__('From')"
                         />
 
                         <x-text-input
@@ -77,7 +77,7 @@
                     <div>
                         <x-input-label
                             for="to"
-                            value="To"
+                            :value="__('To')"
                         />
 
                         <x-text-input
@@ -91,7 +91,7 @@
 
                     <div class="flex items-end gap-3">
                         <x-primary-button>
-                            Apply Filter
+                            {{ __('Apply Filter') }}
                         </x-primary-button>
 
                         <a
@@ -100,7 +100,7 @@
                             ]) }}"
                             class="text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Reset
+                            {{ __('Reset') }}
                         </a>
                     </div>
                 </form>
@@ -109,7 +109,7 @@
             <div class="grid gap-6 md:grid-cols-3">
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Total Invoiced
+                        {{ __('Total Invoiced') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -120,7 +120,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Total Paid
+                        {{ __('Total Paid') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-green-700">
@@ -131,7 +131,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Outstanding Balance
+                        {{ __('Outstanding Balance') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-orange-700">
@@ -143,7 +143,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Invoices
+                    {{ __('Invoices') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -151,31 +151,31 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice Number
+                                    {{ __('Invoice Number') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Paid
+                                    {{ __('Paid') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Remaining
+                                    {{ __('Remaining') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Status
+                                    {{ __('Status') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Action
+                                    {{ __('Action') }}
                                 </th>
                             </tr>
                         </thead>
@@ -207,7 +207,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($invoice->status->value)->replace('_', ' ')->title() }}
+                                        {{ __((string) str($invoice->status->value)->replace('_', ' ')->title()) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm">
@@ -218,7 +218,7 @@
                                             ]) }}"
                                             class="font-medium text-indigo-600 hover:text-indigo-800"
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -228,7 +228,7 @@
                                         colspan="7"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No invoices found for this customer.
+                                        {{ __('No invoices found for this customer.') }}
                                     </td>
                                 </tr>
                             @endforelse
@@ -239,7 +239,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Payment History
+                    {{ __('Payment History') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -247,27 +247,27 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice
+                                    {{ __('Invoice') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Amount
+                                    {{ __('Amount') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Method
+                                    {{ __('Method') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Reference
+                                    {{ __('Reference') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Recorded By
+                                    {{ __('Recorded By') }}
                                 </th>
                             </tr>
                         </thead>
@@ -289,7 +289,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($payment->method->value)->replace('_', ' ')->title() }}
+                                        {{ __((string) str($payment->method->value)->replace('_', ' ')->title()) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
@@ -306,7 +306,7 @@
                                         colspan="6"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No payments found for this period.
+                                        {{ __('No payments found for this period.') }}
                                     </td>
                                 </tr>
                             @endforelse

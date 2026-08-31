@@ -1,5 +1,5 @@
 <x-contact-form
     resource="customers"
-    title="Edit Customer"
+    :title="__('Edit Customer')"
     :record="$customer"
 />

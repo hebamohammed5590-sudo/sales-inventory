@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\SupplierController;
@@ -48,6 +49,13 @@ Route::middleware('auth')->group(function () {
             'index',
         ]
     )->name('activity-logs.index');
+    Route::get(
+        '/search',
+        [
+            SearchController::class,
+            'index',
+        ]
+    )->name('search.index');
 
     Route::patch(
         '/profile',

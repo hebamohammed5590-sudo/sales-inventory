@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            Reports
+            {{ __('Reports') }}
         </h2>
     </x-slot>
 
@@ -13,15 +13,15 @@
                     class="rounded-lg bg-white p-6 shadow-sm transition hover:shadow-md"
                 >
                     <h3 class="text-lg font-semibold text-gray-900">
-                        Sales Report
+                        {{ __('Sales Report') }}
                     </h3>
 
                     <p class="mt-3 text-sm text-gray-600">
-                        Review sales invoices, totals, and daily sales.
+                        {{ __('Review sales invoices, totals, and daily sales.') }}
                     </p>
 
                     <span class="mt-4 inline-block text-sm font-medium text-indigo-600">
-                        Open Report
+                        {{ __('Open Report') }}
                     </span>
                 </a>
 
@@ -30,15 +30,15 @@
                     class="rounded-lg bg-white p-6 shadow-sm transition hover:shadow-md"
                 >
                     <h3 class="text-lg font-semibold text-gray-900">
-                        Purchases Report
+                        {{ __('Purchases Report') }}
                     </h3>
 
                     <p class="mt-3 text-sm text-gray-600">
-                        Review purchase invoices, totals, and daily purchases.
+                        {{ __('Review purchase invoices, totals, and daily purchases.') }}
                     </p>
 
                     <span class="mt-4 inline-block text-sm font-medium text-indigo-600">
-                        Open Report
+                        {{ __('Open Report') }}
                     </span>
                 </a>
 
@@ -47,15 +47,15 @@
                     class="rounded-lg bg-white p-6 shadow-sm transition hover:shadow-md"
                 >
                     <h3 class="text-lg font-semibold text-gray-900">
-                        Profit Report
+                        {{ __('Profit Report') }}
                     </h3>
 
                     <p class="mt-3 text-sm text-gray-600">
-                        Compare sales revenue, product costs, and profit.
+                        {{ __('Compare sales revenue, product costs, and profit.') }}
                     </p>
 
                     <span class="mt-4 inline-block text-sm font-medium text-indigo-600">
-                        Open Report
+                        {{ __('Open Report') }}
                     </span>
                 </a>
 
@@ -64,15 +64,15 @@
                     class="rounded-lg bg-white p-6 shadow-sm transition hover:shadow-md"
                 >
                     <h3 class="text-lg font-semibold text-gray-900">
-                        Stock Report
+                        {{ __('Stock Report') }}
                     </h3>
 
                     <p class="mt-3 text-sm text-gray-600">
-                        Review inventory quantities, values, and low-stock products.
+                        {{ __('Review inventory quantities, values, and low-stock products.') }}
                     </p>
 
                     <span class="mt-4 inline-block text-sm font-medium text-indigo-600">
-                        Open Report
+                        {{ __('Open Report') }}
                     </span>
                 </a>
             </div>

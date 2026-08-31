@@ -36,7 +36,7 @@
                 <div class="mb-6 rounded-lg bg-white p-6 shadow-sm">
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold text-gray-800">
-                            Import Products
+                            {{ __('Import Products') }}
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">

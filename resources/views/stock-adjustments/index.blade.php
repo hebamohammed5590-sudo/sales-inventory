@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Stock Adjustments
+                {{ __('Stock Adjustments') }}
             </h2>
 
             @can('create', \App\Models\StockAdjustment::class)
@@ -92,12 +92,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td
-                                        colspan="6"
-                                        class="px-4 py-8 text-center text-sm text-gray-500"
-                                    >
-                                        No stock adjustments found.
-                                    </td>
+                                  <td
+    colspan="6"
+    class="px-4 py-8 text-center text-sm text-gray-500"
+>
+    {{ __('No stock adjustments found.') }}
+</td>
                                 </tr>
                             @endforelse
                         </tbody>

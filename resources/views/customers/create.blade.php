@@ -1,4 +1,4 @@
 <x-contact-form
     resource="customers"
-    title="Add Customer"
+    :title="__('Add Customer')"
 />

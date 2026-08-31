@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Profit Report
+                {{ __('Profit Report') }}
             </h2>
 
             <a
                 href="{{ route('reports.index') }}"
                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
             >
-                Back to Reports
+                {{ __('Back to Reports') }}
             </a>
         </div>
     </x-slot>
@@ -25,7 +25,7 @@
                     <div>
                         <x-input-label
                             for="from"
-                            value="From"
+                            :value="__('From')"
                         />
 
                         <x-text-input
@@ -40,7 +40,7 @@
                     <div>
                         <x-input-label
                             for="to"
-                            value="To"
+                            :value="__('To')"
                         />
 
                         <x-text-input
@@ -54,14 +54,14 @@
 
                     <div class="flex items-end gap-3">
                         <x-primary-button>
-                            Apply Filter
+                            {{ __('Apply Filter') }}
                         </x-primary-button>
 
                         <a
                             href="{{ route('reports.profit') }}"
                             class="text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Reset
+                            {{ __('Reset') }}
                         </a>
                     </div>
                 </form>
@@ -70,7 +70,7 @@
             <div class="grid gap-6 md:grid-cols-3">
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Revenue
+                        {{ __('Revenue') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -81,7 +81,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Cost
+                        {{ __('Cost') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -92,7 +92,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Profit
+                        {{ __('Profit') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-green-700">
@@ -104,7 +104,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Profit by Product
+                    {{ __('Profit by Product') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -112,27 +112,27 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Product
+                                    {{ __('Product') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    SKU
+                                    {{ __('SKU') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Quantity Sold
+                                    {{ __('Quantity Sold') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Revenue
+                                    {{ __('Revenue') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Cost
+                                    {{ __('Cost') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Profit
+                                    {{ __('Profit') }}
                                 </th>
                             </tr>
                         </thead>
@@ -173,7 +173,7 @@
                                         colspan="6"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No sales found for this period.
+                                        {{ __('No sales found for this period.') }}
                                     </td>
                                 </tr>
                             @endforelse

@@ -1,8 +1,8 @@
 <x-contact-index
     :records="$suppliers"
     resource="suppliers"
-    title="Suppliers"
-    add-label="Add Supplier"
+    :title="__('Suppliers')"
+    :add-label="__('Add Supplier')"
     :model-class="\App\Models\Supplier::class"
     :sort="$sort"
 />

@@ -435,4 +435,77 @@ class LocalizationTest extends TestCase
 
         $printResponse->assertSee('سعر الوحدة');
     }
+
+    public function test_reviewed_pages_display_arabic_translations(): void
+    {
+        $translations = json_decode(
+            file_get_contents(lang_path('ar.json')),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        $pages = [
+            '/reports/profit' => 'Profit Report',
+            '/settings' => 'Settings',
+            '/stock-adjustments' => 'Stock Adjustments',
+            '/products' => 'Import Products',
+            '/dashboard' => 'View Products',
+        ];
+
+        foreach ($pages as $url => $translationKey) {
+            $this->assertArrayHasKey(
+                $translationKey,
+                $translations
+            );
+
+            $this->assertNotSame(
+                $translationKey,
+                $translations[$translationKey]
+            );
+
+            $response = $this
+                ->actingAs($this->admin)
+                ->withSession([
+                    'locale' => 'ar',
+                ])
+                ->get($url);
+
+            $response->assertOk();
+
+            $response->assertSeeText(
+                $translations[$translationKey]
+            );
+
+            $response->assertDontSeeText(
+                $translationKey
+            );
+        }
+    }
+
+    public function test_reviewed_pages_still_display_english_translations(): void
+    {
+        $pages = [
+            '/reports/profit' => 'Profit Report',
+            '/settings' => 'Settings',
+            '/stock-adjustments' => 'Stock Adjustments',
+            '/products' => 'Import Products',
+            '/dashboard' => 'View Products',
+        ];
+
+        foreach ($pages as $url => $expectedText) {
+            $response = $this
+                ->actingAs($this->admin)
+                ->withSession([
+                    'locale' => 'en',
+                ])
+                ->get($url);
+
+            $response->assertOk();
+
+            $response->assertSeeText(
+                $expectedText
+            );
+        }
+    }
 }

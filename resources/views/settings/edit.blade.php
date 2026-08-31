@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            Settings
+            {{ __('Settings') }}
         </h2>
     </x-slot>
 
@@ -17,7 +17,7 @@
             @if ($errors->any())
                 <div class="rounded-lg bg-red-100 p-4 text-red-800">
                     <p class="font-medium">
-                        Please correct the following errors:
+                        {{ __('Please correct the following errors:') }}
                     </p>
 
                     <ul class="mt-2 list-disc space-y-1 pl-5">
@@ -41,7 +41,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Company Information
+                        {{ __('Company Information') }}
                     </h3>
 
                     <div class="grid gap-6 md:grid-cols-2">
@@ -50,7 +50,7 @@
                                 for="company_name"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Company Name
+                                {{ __('Company Name') }}
                             </label>
 
                             <input
@@ -68,7 +68,7 @@
                                 for="company_phone"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Company Phone
+                                {{ __('Company Phone') }}
                             </label>
 
                             <input
@@ -85,7 +85,7 @@
                                 for="company_address"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Company Address
+                                {{ __('Company Address') }}
                             </label>
 
                             <textarea
@@ -101,13 +101,13 @@
                                 for="company_logo"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Company Logo
+                                {{ __('Company Logo') }}
                             </label>
 
                             @if (filled($settings['company_logo']))
                                 <img
                                     src="{{ asset('storage/' . $settings['company_logo']) }}"
-                                    alt="Company Logo"
+                                    alt="{{ __('Company Logo') }}"
                                     class="mb-3 h-20 w-auto rounded-md border object-contain"
                                 >
                             @endif
@@ -125,7 +125,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Financial Settings
+                        {{ __('Financial Settings') }}
                     </h3>
 
                     <div class="grid gap-6 md:grid-cols-2">
@@ -134,7 +134,7 @@
                                 for="currency_symbol"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Currency Symbol
+                                {{ __('Currency Symbol') }}
                             </label>
 
                             <input
@@ -152,7 +152,7 @@
                                 for="tax_rate"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Tax Rate %
+                                {{ __('Tax Rate %') }}
                             </label>
 
                             <input
@@ -173,7 +173,7 @@
                                 for="invoice_prefix"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Sales Invoice Prefix
+                                {{ __('Sales Invoice Prefix') }}
                             </label>
 
                             <input
@@ -191,7 +191,7 @@
                                 for="purchase_invoice_prefix"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                Purchase Invoice Prefix
+                                {{ __('Purchase Invoice Prefix') }}
                             </label>
 
                             <input
@@ -208,7 +208,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                        Inventory Settings
+                        {{ __('Inventory Settings') }}
                     </h3>
 
                     <div class="max-w-sm">
@@ -216,7 +216,7 @@
                             for="low_stock_threshold"
                             class="mb-2 block text-sm font-medium text-gray-700"
                         >
-                            Low Stock Threshold
+                            {{ __('Low Stock Threshold') }}
                         </label>
 
                         <input
@@ -237,7 +237,7 @@
                         type="submit"
                         class="rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                     >
-                        Save Settings
+                        {{ __('Save Settings') }}
                     </button>
                 </div>
             </form>

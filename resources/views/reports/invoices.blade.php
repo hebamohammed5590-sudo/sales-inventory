@@ -3,9 +3,9 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 @if ($report['type'] === \App\Enums\InvoiceType::Sale)
-                    Sales Report
+                    {{ __('Sales Report') }}
                 @else
-                    Purchases Report
+                    {{ __('Purchases Report') }}
                 @endif
             </h2>
 
@@ -13,7 +13,7 @@
                 href="{{ route('reports.index') }}"
                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
             >
-                Back to Reports
+                {{ __('Back to Reports') }}
             </a>
         </div>
     </x-slot>
@@ -31,7 +31,7 @@
                     <div>
                         <x-input-label
                             for="from"
-                            value="From"
+                            :value="__('From')"
                         />
 
                         <x-text-input
@@ -46,7 +46,7 @@
                     <div>
                         <x-input-label
                             for="to"
-                            value="To"
+                            :value="__('To')"
                         />
 
                         <x-text-input
@@ -60,7 +60,7 @@
 
                     <div class="flex items-end gap-3">
                         <x-primary-button>
-                            Apply Filter
+                            {{ __('Apply Filter') }}
                         </x-primary-button>
 
                         <a
@@ -69,7 +69,7 @@
                                 : route('reports.purchases') }}"
                             class="text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Reset
+                            {{ __('Reset') }}
                         </a>
                     </div>
                 </form>
@@ -88,7 +88,7 @@
             <div class="grid gap-6 md:grid-cols-2">
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Number of Invoices
+                        {{ __('Number of Invoices') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -98,7 +98,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Total Amount
+                        {{ __('Total Amount') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -110,7 +110,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Invoices
+                    {{ __('Invoices') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -118,31 +118,31 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice Number
+                                    {{ __('Invoice Number') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                                     @if ($report['type'] === \App\Enums\InvoiceType::Sale)
-                                        Customer
+                                        {{ __('Customer') }}
                                     @else
-                                        Supplier
+                                        {{ __('Supplier') }}
                                     @endif
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Status
+                                    {{ __('Status') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Action
+                                    {{ __('Action') }}
                                 </th>
                             </tr>
                         </thead>
@@ -167,7 +167,7 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-sm text-gray-600">
-                                        {{ str($invoice->status->value)->replace('_', ' ')->title() }}
+                                        {{ __((string) str($invoice->status->value)->replace('_', ' ')->title()) }}
                                     </td>
 
                                     <td class="px-4 py-3 text-sm font-medium text-gray-900">
@@ -183,7 +183,7 @@
                                             ]) }}"
                                             class="font-medium text-indigo-600 hover:text-indigo-800"
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -193,7 +193,7 @@
                                         colspan="6"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No invoices found for this period.
+                                        {{ __('No invoices found for this period.') }}
                                     </td>
                                 </tr>
                             @endforelse
@@ -204,7 +204,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Daily Totals
+                    {{ __('Daily Totals') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -212,15 +212,15 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Number of Invoices
+                                    {{ __('Number of Invoices') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
                             </tr>
                         </thead>
@@ -247,7 +247,7 @@
                                         colspan="3"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No daily totals available.
+                                        {{ __('No daily totals available.') }}
                                     </td>
                                 </tr>
                             @endforelse

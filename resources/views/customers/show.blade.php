@@ -1,5 +1,5 @@
 <x-contact-details
     resource="customers"
-    title="Customer Details"
+    :title="__('Customer Details')"
     :record="$customer"
 />

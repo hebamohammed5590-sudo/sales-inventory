@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Add Stock Adjustment
+                {{ __('Add Stock Adjustment') }}
             </h2>
 
             <a
                 href="{{ route('stock-adjustments.index') }}"
                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
             >
-                Back to Adjustments
+                {{ __('Back to Adjustments') }}
             </a>
         </div>
     </x-slot>
@@ -28,7 +28,7 @@
                         <div>
                             <x-input-label
                                 for="product_id"
-                                value="Product"
+                                :value="__('Product')"
                             />
 
                             <select
@@ -38,7 +38,7 @@
                                 required
                             >
                                 <option value="">
-                                    Select a product
+                                    {{ __('Select a product') }}
                                 </option>
 
                                 @foreach ($products as $product)
@@ -50,7 +50,7 @@
                                         —
                                         {{ $product->sku }}
                                         —
-                                        Current stock: {{ $product->quantity }}
+                                        {{ __('Current stock') }}: {{ $product->quantity }}
                                     </option>
                                 @endforeach
                             </select>
@@ -64,7 +64,7 @@
                         <div>
                             <x-input-label
                                 for="quantity_change"
-                                value="Quantity Change"
+                                :value="__('Quantity Change')"
                             />
 
                             <x-text-input
@@ -78,7 +78,7 @@
                             />
 
                             <p class="mt-2 text-sm text-gray-500">
-                                Use a positive number to add stock or a negative number to remove stock.
+                                {{ __('Use a positive number to add stock or a negative number to remove stock.') }}
                             </p>
 
                             <x-input-error
@@ -90,7 +90,7 @@
                         <div>
                             <x-input-label
                                 for="notes"
-                                value="Reason"
+                                :value="__('Reason')"
                             />
 
                             <textarea
@@ -110,14 +110,14 @@
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>
-                                Save Adjustment
+                                {{ __('Save Adjustment') }}
                             </x-primary-button>
 
                             <a
                                 href="{{ route('stock-adjustments.index') }}"
                                 class="text-sm text-gray-600 hover:text-gray-900"
                             >
-                                Cancel
+                                {{ __('Cancel') }}
                             </a>
                         </div>
                     </form>

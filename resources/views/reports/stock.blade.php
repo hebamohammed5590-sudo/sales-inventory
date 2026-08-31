@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Stock Report
+                {{ __('Stock Report') }}
             </h2>
 
             <a
                 href="{{ route('reports.index') }}"
                 class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
             >
-                Back to Reports
+                {{ __('Back to Reports') }}
             </a>
         </div>
     </x-slot>
@@ -19,7 +19,7 @@
             <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Products
+                        {{ __('Products') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -29,7 +29,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Total Quantity
+                        {{ __('Total Quantity') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -39,7 +39,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Low Stock Products
+                        {{ __('Low Stock Products') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-red-700">
@@ -49,7 +49,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Cost Value
+                        {{ __('Cost Value') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -60,7 +60,7 @@
 
                 <div class="rounded-lg bg-white p-6 shadow-sm">
                     <p class="text-sm font-medium text-gray-500">
-                        Selling Value
+                        {{ __('Selling Value') }}
                     </p>
 
                     <p class="mt-3 text-2xl font-bold text-gray-900">
@@ -72,7 +72,7 @@
 
             <div class="rounded-lg bg-white p-6 shadow-sm">
                 <h3 class="mb-6 text-lg font-semibold text-gray-800">
-                    Inventory Details
+                    {{ __('Inventory Details') }}
                 </h3>
 
                 <div class="overflow-x-auto">
@@ -80,35 +80,35 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Product
+                                    {{ __('Product') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    SKU
+                                    {{ __('SKU') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Category
+                                    {{ __('Category') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Quantity
+                                    {{ __('Quantity') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Reorder Level
+                                    {{ __('Reorder Level') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Cost Price
+                                    {{ __('Cost Price') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Selling Price
+                                    {{ __('Selling Price') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Status
+                                    {{ __('Status') }}
                                 </th>
                             </tr>
                         </thead>
@@ -149,11 +149,11 @@
                                     <td class="px-4 py-3 text-sm">
                                         @if ($product->quantity <= $product->reorder_level)
                                             <span class="rounded-full bg-red-100 px-3 py-1 text-red-800">
-                                                Low Stock
+                                                {{ __('Low Stock') }}
                                             </span>
                                         @else
                                             <span class="rounded-full bg-green-100 px-3 py-1 text-green-800">
-                                                In Stock
+                                                {{ __('In Stock') }}
                                             </span>
                                         @endif
                                     </td>
@@ -164,7 +164,7 @@
                                         colspan="8"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No products found.
+                                        {{ __('No products found.') }}
                                     </td>
                                 </tr>
                             @endforelse

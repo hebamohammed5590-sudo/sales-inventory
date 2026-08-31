@@ -1,4 +1,4 @@
 <x-contact-form
     resource="suppliers"
-    title="Add Supplier"
+    :title="__('Add Supplier')"
 />

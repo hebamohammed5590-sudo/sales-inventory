@@ -36,70 +36,67 @@ class DashboardController extends Controller
             function () use ($user): array {
                 $activeStatuses = [
                     InvoiceStatus::Confirmed->value,
-
                     InvoiceStatus::PartiallyPaid->value,
-
                     InvoiceStatus::Paid->value,
                 ];
 
-                $todaySales = Invoice::query()
-                    ->where(
-                        'type',
-                        InvoiceType::Sale->value
-                    )
-                    ->whereIn(
-                        'status',
-                        $activeStatuses
-                    )
-                    ->whereDate(
-                        'invoice_date',
-                        today()
-                    )
-                    ->sum('total');
+                $today = today()->toDateString();
+                $monthStart = now()->startOfMonth()->toDateTimeString();
+                $monthEnd = now()->endOfMonth()->toDateTimeString();
 
-                $monthlySales = Invoice::query()
-                    ->where(
-                        'type',
-                        InvoiceType::Sale->value
-                    )
+                $todayInvoicesCondition = 'DATE(invoice_date) = ?';
+                $todayInvoicesBindings = [$today];
+
+                if ($user->role === Role::Cashier) {
+                    $todayInvoicesCondition .= ' AND type = ?';
+                    $todayInvoicesBindings[] = InvoiceType::Sale->value;
+                }
+
+                $invoiceMetrics = Invoice::query()
                     ->whereIn(
                         'status',
                         $activeStatuses
                     )
-                    ->whereBetween(
-                        'invoice_date',
+                    ->selectRaw(
+                        'COALESCE(SUM(CASE
+                            WHEN type = ?
+                            AND DATE(invoice_date) = ?
+                            THEN total
+                            ELSE 0
+                        END), 0) as today_sales',
                         [
-                            now()->startOfMonth(),
-                            now()->endOfMonth(),
+                            InvoiceType::Sale->value,
+                            $today,
                         ]
                     )
-                    ->sum('total');
+                    ->selectRaw(
+                        'COALESCE(SUM(CASE
+                            WHEN type = ?
+                            AND invoice_date BETWEEN ? AND ?
+                            THEN total
+                            ELSE 0
+                        END), 0) as monthly_sales',
+                        [
+                            InvoiceType::Sale->value,
+                            $monthStart,
+                            $monthEnd,
+                        ]
+                    )
+                    ->selectRaw(
+                        "COALESCE(SUM(CASE
+                            WHEN {$todayInvoicesCondition}
+                            THEN 1
+                            ELSE 0
+                        END), 0) as today_invoices",
+                        $todayInvoicesBindings
+                    )
+                    ->first();
 
                 $inventoryValue = Product::query()
                     ->selectRaw(
                         'COALESCE(SUM(quantity * cost_price), 0) as total_value'
                     )
                     ->value('total_value');
-
-                $todayInvoices = Invoice::query()
-                    ->whereIn(
-                        'status',
-                        $activeStatuses
-                    )
-                    ->whereDate(
-                        'invoice_date',
-                        today()
-                    )
-                    ->when(
-                        $user->role === Role::Cashier,
-                        function ($query): void {
-                            $query->where(
-                                'type',
-                                InvoiceType::Sale->value
-                            );
-                        }
-                    )
-                    ->count();
 
                 $totalCustomers = Customer::query()
                     ->count();
@@ -157,7 +154,6 @@ class DashboardController extends Controller
                         'status',
                         [
                             InvoiceStatus::Confirmed->value,
-
                             InvoiceStatus::PartiallyPaid->value,
                         ]
                     )
@@ -175,13 +171,13 @@ class DashboardController extends Controller
                     ->get();
 
                 return [
-                    'today_sales' => (int) $todaySales,
+                    'today_sales' => (int) $invoiceMetrics->today_sales,
 
-                    'monthly_sales' => (int) $monthlySales,
+                    'monthly_sales' => (int) $invoiceMetrics->monthly_sales,
 
                     'inventory_value' => (int) $inventoryValue,
 
-                    'today_invoices' => $todayInvoices,
+                    'today_invoices' => (int) $invoiceMetrics->today_invoices,
 
                     'total_customers' => $totalCustomers,
 
