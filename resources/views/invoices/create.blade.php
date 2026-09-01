@@ -22,6 +22,7 @@
                         data-tax-rate="{{ (string) $taxRate }}"
                         data-previous-items="{{ json_encode(old('items', [])) }}"
                         data-discount-type="{{ old('discount_type', '') }}"
+                        data-stock-label="{{ __('Stock') }}"
                         data-discount-value="{{ old('discount_value', '0') }}"
                     >
                         @csrf

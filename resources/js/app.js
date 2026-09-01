@@ -17,6 +17,8 @@ Alpine.data('invoiceForm', () => ({
 
     discountValue: '0',
 
+    stockLabel: '',
+
     items: [],
 
     nextId: 0,
@@ -34,6 +36,8 @@ Alpine.data('invoiceForm', () => ({
         this.discountType = this.$el.dataset.discountType || '';
 
         this.discountValue = this.$el.dataset.discountValue || '0';
+
+        this.stockLabel = this.$el.dataset.stockLabel || '';
 
         const previousItems = this.parseJson(
             this.$el.dataset.previousItems,
@@ -111,7 +115,7 @@ Alpine.data('invoiceForm', () => ({
 
             product.sku,
 
-            'Stock: ' + product.quantity,
+            this.stockLabel + ': ' + product.quantity,
         ].join(' — ');
     },
 

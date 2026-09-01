@@ -645,4 +645,42 @@ class LocalizationTest extends TestCase
             }
         }
     }
+
+    public function test_invoice_product_selector_uses_localized_stock_label(): void
+    {
+        $view = file_get_contents(
+            resource_path('views/invoices/create.blade.php')
+        );
+
+        $javascript = file_get_contents(
+            resource_path('js/app.js')
+        );
+
+        $translations = json_decode(
+            file_get_contents(lang_path('ar.json')),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        $this->assertStringContainsString(
+            'data-stock-label="{{ __(\'Stock\') }}"',
+            $view
+        );
+
+        $this->assertStringContainsString(
+            "this.stockLabel + ': ' + product.quantity",
+            $javascript
+        );
+
+        $this->assertStringNotContainsString(
+            "'Stock: '",
+            $javascript
+        );
+
+        $this->assertSame(
+            'المخزون',
+            $translations['Stock'] ?? null
+        );
+    }
 }
