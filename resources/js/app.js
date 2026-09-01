@@ -229,6 +229,27 @@ Alpine.data('invoiceForm', () => ({
         return this.taxableAmountInCents + this.taxInCents;
     },
 }));
+Alpine.store('theme', {
+    dark: document.documentElement.classList.contains('dark'),
+
+    toggle() {
+        this.dark = !this.dark;
+
+        document.documentElement.classList.toggle(
+            'dark',
+            this.dark
+        );
+
+        document.documentElement.style.colorScheme = this.dark
+            ? 'dark'
+            : 'light';
+
+        localStorage.setItem(
+            'theme',
+            this.dark ? 'dark' : 'light'
+        );
+    },
+});
 
 Alpine.start();
 

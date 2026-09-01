@@ -1,3 +1,123 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    html.dark {
+        color-scheme: dark;
+    }
+
+    .dark input:not([type='checkbox']):not([type='radio']),
+    .dark select,
+    .dark textarea {
+        @apply border-gray-600 bg-gray-800 text-gray-100 placeholder-gray-400;
+    }
+
+    .dark input[type='checkbox'],
+    .dark input[type='radio'] {
+        @apply border-gray-600 bg-gray-800;
+    }
+
+    .dark input[type='file'] {
+        @apply text-gray-300;
+    }
+
+    .dark input[type='file']::file-selector-button {
+        @apply border-0 bg-gray-700 text-gray-100;
+    }
+}
+
+@layer utilities {
+    /*
+     * Backgrounds
+     */
+    .dark .bg-white {
+        background-color: rgb(17 24 39);
+    }
+
+    .dark .bg-gray-50 {
+        background-color: rgb(31 41 55);
+    }
+
+    .dark .bg-gray-100 {
+        background-color: rgb(3 7 18);
+    }
+
+    /*
+     * Text
+     */
+    .dark .text-gray-900,
+    .dark .text-gray-800 {
+        color: rgb(243 244 246);
+    }
+
+    .dark .text-gray-700,
+    .dark .text-gray-600 {
+        color: rgb(209 213 219);
+    }
+
+    .dark .text-gray-500 {
+        color: rgb(156 163 175);
+    }
+
+    .dark .text-gray-400 {
+        color: rgb(156 163 175);
+    }
+
+    /*
+     * Borders
+     */
+    .dark .border-gray-100,
+    .dark .border-gray-200 {
+        border-color: rgb(31 41 55);
+    }
+
+    .dark .border-gray-300 {
+        border-color: rgb(75 85 99);
+    }
+
+    /*
+     * Table dividers
+     */
+    .dark .divide-gray-100 > :not([hidden]) ~ :not([hidden]),
+    .dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+        border-color: rgb(31 41 55);
+    }
+
+    /*
+     * Hover backgrounds
+     */
+    .dark .hover\:bg-gray-50:hover,
+    .dark .hover\:bg-gray-100:hover {
+        background-color: rgb(31 41 55);
+    }
+
+    /*
+     * Hover text
+     */
+    .dark .hover\:text-gray-700:hover,
+    .dark .hover\:text-gray-900:hover {
+        color: rgb(255 255 255);
+    }
+
+    /*
+     * Focus ring offsets
+     */
+    .dark .focus\:ring-offset-2:focus {
+        --tw-ring-offset-color: rgb(17 24 39);
+    }
+
+    /*
+     * Disabled elements
+     */
+    .dark input:disabled,
+    .dark select:disabled,
+    .dark textarea:disabled,
+    .dark button:disabled {
+        opacity: 0.6;
+    }
+}

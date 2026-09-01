@@ -1,4 +1,7 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav
+    x-data="{ open: false }"
+    class="border-b border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900"
+>
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,7 +9,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
                     </a>
                 </div>
 
@@ -32,6 +35,56 @@
 
             <!-- Search, Language and User Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <!-- Desktop Theme Toggle -->
+                <button
+                    type="button"
+                    @click="$store.theme.toggle()"
+                    class="me-3 inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
+                    :aria-pressed="$store.theme.dark"
+                >
+                    <svg
+                        x-show="!$store.theme.dark"
+                        x-cloak
+                        class="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
+                    </svg>
+
+                    <svg
+                        x-show="$store.theme.dark"
+                        x-cloak
+                        class="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646a9.003 9.003 0 1011.708 11.708z"
+                        />
+                    </svg>
+
+                    <span x-show="!$store.theme.dark" x-cloak>
+                        {{ __('Dark Mode') }}
+                    </span>
+
+                    <span x-show="$store.theme.dark" x-cloak>
+                        {{ __('Light Mode') }}
+                    </span>
+                </button>
+
                 <form
                     method="GET"
                     action="{{ route('search.index') }}"
@@ -46,12 +99,12 @@
                             minlength="2"
                             maxlength="100"
                             required
-                            class="w-56 rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="w-56 rounded-md border-gray-300 bg-white text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
                         >
 
                         <button
                             type="submit"
-                            class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
                         >
                             {{ __('Search') }}
                         </button>
@@ -69,7 +122,7 @@
 
                     <button
                         type="submit"
-                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
                     >
                         {{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}
                     </button>
@@ -78,7 +131,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                            class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-900 dark:text-gray-300 dark:hover:text-white"
                         >
                             <div>{{ Auth::user()->name }}</div>
 
@@ -123,7 +176,7 @@
             <div class="-me-2 flex items-center sm:hidden">
                 <button
                     @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                    class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:focus:bg-gray-800 dark:focus:text-gray-200"
                 >
                     <svg
                         class="h-6 w-6"
@@ -159,6 +212,58 @@
         class="hidden sm:hidden"
     >
         <div class="pt-2 pb-3 space-y-1">
+            <!-- Mobile Toggle -->
+            <div class="px-4 pb-3">
+                <button
+                    type="button"
+                    @click="$store.theme.toggle()"
+                    class="flex w-full items-center justify-between rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
+                    :aria-pressed="$store.theme.dark"
+                >
+                    <span x-show="!$store.theme.dark" x-cloak>
+                        {{ __('Dark Mode') }}
+                    </span>
+
+                    <span x-show="$store.theme.dark" x-cloak>
+                        {{ __('Light Mode') }}
+                    </span>
+
+                    <svg
+                        x-show="!$store.theme.dark"
+                        x-cloak
+                        class="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
+                    </svg>
+
+                    <svg
+                        x-show="$store.theme.dark"
+                        x-cloak
+                        class="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646a9.003 9.003 0 1011.708 11.708z"
+                        />
+                    </svg>
+                </button>
+            </div>
+
             <form
                 method="GET"
                 action="{{ route('search.index') }}"
@@ -173,12 +278,12 @@
                         minlength="2"
                         maxlength="100"
                         required
-                        class="block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        class="block w-full rounded-md border-gray-300 bg-white text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
                     >
 
                     <button
                         type="submit"
-                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700"
+                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
                     >
                         {{ __('Search') }}
                     </button>
@@ -203,13 +308,13 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+        <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-800">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">
+                <div class="text-base font-medium text-gray-800 dark:text-gray-100">
                     {{ Auth::user()->name }}
                 </div>
 
-                <div class="font-medium text-sm text-gray-500">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
                     {{ Auth::user()->email }}
                 </div>
             </div>
