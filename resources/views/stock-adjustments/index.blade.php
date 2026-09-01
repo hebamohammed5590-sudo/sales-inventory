@@ -10,7 +10,7 @@
                     href="{{ route('stock-adjustments.create') }}"
                     class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                 >
-                    Add Adjustment
+                    {{ __('Add Adjustment') }}
                 </a>
             @endcan
         </div>
@@ -30,27 +30,27 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Product
+                                    {{ __('Product') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    SKU
+                                    {{ __('SKU') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Quantity Change
+                                    {{ __('Quantity Change') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Reason
+                                    {{ __('Reason') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    User
+                                    {{ __('User') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
                             </tr>
                         </thead>
@@ -92,12 +92,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                  <td
-    colspan="6"
-    class="px-4 py-8 text-center text-sm text-gray-500"
->
-    {{ __('No stock adjustments found.') }}
-</td>
+                                    <td
+                                        colspan="6"
+                                        class="px-4 py-8 text-center text-sm text-gray-500"
+                                    >
+                                        {{ __('No stock adjustments found.') }}
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>

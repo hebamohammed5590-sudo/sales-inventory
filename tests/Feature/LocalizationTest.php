@@ -508,4 +508,141 @@ class LocalizationTest extends TestCase
             );
         }
     }
+
+    public function test_latest_review_pages_display_remaining_arabic_translations(): void
+    {
+        $translations = json_decode(
+            file_get_contents(lang_path('ar.json')),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        $pages = [
+            '/dashboard' => [
+                'Current Stock',
+                'Type',
+            ],
+            '/products' => [
+                'CSV File',
+                'Import CSV',
+                'Download Sample CSV',
+            ],
+            '/products/create' => [
+                'Product Name',
+                'Product Image',
+                'Create Product',
+            ],
+            '/stock-adjustments' => [
+                'Add Adjustment',
+                'Quantity Change',
+                'Reason',
+            ],
+            '/invoices/sale' => [
+                'Add Invoice',
+                'Invoice Number',
+                'Status',
+            ],
+            '/invoices/purchase' => [
+                'Add Invoice',
+                'Invoice Number',
+                'Status',
+            ],
+            '/invoices/sale/create' => [
+                'Create Invoice',
+                'Items',
+                'Remove',
+                'Discount Type',
+            ],
+        ];
+
+        foreach ($pages as $url => $keys) {
+            $response = $this
+                ->actingAs($this->admin)
+                ->withSession([
+                    'locale' => 'ar',
+                ])
+                ->get($url);
+
+            $response->assertOk();
+
+            foreach ($keys as $key) {
+                $this->assertArrayHasKey(
+                    $key,
+                    $translations
+                );
+
+                $this->assertNotSame(
+                    $key,
+                    $translations[$key]
+                );
+
+                $response->assertSeeText(
+                    $translations[$key]
+                );
+
+                $response->assertDontSeeText(
+                    $key
+                );
+            }
+        }
+    }
+
+    public function test_latest_review_pages_keep_english_locale(): void
+    {
+        $pages = [
+            '/dashboard' => [
+                'Current Stock',
+                'Type',
+            ],
+            '/products' => [
+                'CSV File',
+                'Import CSV',
+                'Download Sample CSV',
+            ],
+            '/products/create' => [
+                'Product Name',
+                'Product Image',
+                'Create Product',
+            ],
+            '/stock-adjustments' => [
+                'Add Adjustment',
+                'Quantity Change',
+                'Reason',
+            ],
+            '/invoices/sale' => [
+                'Add Invoice',
+                'Invoice Number',
+                'Status',
+            ],
+            '/invoices/purchase' => [
+                'Add Invoice',
+                'Invoice Number',
+                'Status',
+            ],
+            '/invoices/sale/create' => [
+                'Create Invoice',
+                'Items',
+                'Remove',
+                'Discount Type',
+            ],
+        ];
+
+        foreach ($pages as $url => $expectedTexts) {
+            $response = $this
+                ->actingAs($this->admin)
+                ->withSession([
+                    'locale' => 'en',
+                ])
+                ->get($url);
+
+            $response->assertOk();
+
+            foreach ($expectedTexts as $expectedText) {
+                $response->assertSeeText(
+                    $expectedText
+                );
+            }
+        }
+    }
 }

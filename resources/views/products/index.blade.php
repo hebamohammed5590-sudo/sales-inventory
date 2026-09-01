@@ -40,7 +40,7 @@
                         </h3>
 
                         <p class="mt-1 text-sm text-gray-500">
-                            Upload a CSV file to create or update products.
+                            {{ __('Upload a CSV file to create or update products.') }}
                         </p>
                     </div>
 
@@ -57,7 +57,7 @@
                                 for="products_csv"
                                 class="mb-2 block text-sm font-medium text-gray-700"
                             >
-                                CSV File
+                                {{ __('CSV File') }}
                             </label>
 
                             <input
@@ -80,14 +80,14 @@
                             type="submit"
                             class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                         >
-                            Import CSV
+                            {{ __('Import CSV') }}
                         </button>
 
                         <a
                             href="{{ route('products.import.sample') }}"
                             class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
-                            Download Sample CSV
+                            {{ __('Download Sample CSV') }}
                         </a>
                     </form>
 

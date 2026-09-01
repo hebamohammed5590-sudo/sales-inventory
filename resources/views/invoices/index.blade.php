@@ -3,9 +3,9 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 @if ($invoiceType === \App\Enums\InvoiceType::Sale)
-                    Sales Invoices
+                    {{ __('Sales Invoices') }}
                 @else
-                    Purchase Invoices
+                    {{ __('Purchase Invoices') }}
                 @endif
             </h2>
 
@@ -30,7 +30,7 @@
                         href="{{ route('invoices.create', ['type' => $invoiceType->value]) }}"
                         class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                     >
-                        Add Invoice
+                        {{ __('Add Invoice') }}
                     </a>
                 @endcan
             </div>
@@ -54,7 +54,7 @@
                     <div>
                         <x-input-label
                             for="search"
-                            value="Invoice Number"
+                            :value="__('Invoice Number')"
                         />
 
                         <x-text-input
@@ -63,14 +63,14 @@
                             type="text"
                             class="mt-1 block w-full"
                             :value="request('search')"
-                            placeholder="Search invoice number"
+                            placeholder="{{ __('Search invoice number') }}"
                         />
                     </div>
 
                     <div>
                         <x-input-label
                             for="status"
-                            value="Status"
+                            :value="__('Status')"
                         />
 
                         <select
@@ -79,7 +79,7 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         >
                             <option value="">
-                                All statuses
+                                {{ __('All Statuses') }}
                             </option>
 
                             @foreach ($statuses as $status)
@@ -87,7 +87,7 @@
                                     value="{{ $status->value }}"
                                     @selected(request('status') === $status->value)
                                 >
-                                    {{ str($status->value)->replace('_', ' ')->title() }}
+                                    {{ __((string) str($status->value)->replace('_', ' ')->title()) }}
                                 </option>
                             @endforeach
                         </select>
@@ -95,14 +95,14 @@
 
                     <div class="flex items-end gap-3">
                         <x-primary-button>
-                            Filter
+                            {{ __('Filter') }}
                         </x-primary-button>
 
                         <a
                             href="{{ route('invoices.index', ['type' => $invoiceType->value]) }}"
                             class="text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Reset
+                            {{ __('Reset') }}
                         </a>
                     </div>
                 </form>
@@ -114,35 +114,35 @@
                         <thead>
                             <tr>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Invoice Number
+                                    {{ __('Invoice Number') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
                                     @if ($invoiceType === \App\Enums\InvoiceType::Sale)
-                                        Customer
+                                        {{ __('Customer') }}
                                     @else
-                                        Supplier
+                                        {{ __('Supplier') }}
                                     @endif
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Date
+                                    {{ __('Date') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Total
+                                    {{ __('Total') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Status
+                                    {{ __('Status') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Created By
+                                    {{ __('Created By') }}
                                 </th>
 
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                                    Actions
+                                    {{ __('Actions') }}
                                 </th>
                             </tr>
                         </thead>
@@ -191,7 +191,7 @@
                                         @endphp
 
                                         <span class="rounded-full px-3 py-1 {{ $statusClasses }}">
-                                            {{ str($invoice->status->value)->replace('_', ' ')->title() }}
+                                            {{ __((string) str($invoice->status->value)->replace('_', ' ')->title()) }}
                                         </span>
                                     </td>
 
@@ -207,7 +207,7 @@
                                             ]) }}"
                                             class="font-medium text-indigo-600 hover:text-indigo-800"
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -217,7 +217,7 @@
                                         colspan="7"
                                         class="px-4 py-8 text-center text-sm text-gray-500"
                                     >
-                                        No invoices found.
+                                        {{ __('No invoices found.') }}
                                     </td>
                                 </tr>
                             @endforelse
