@@ -22,7 +22,7 @@
         <select
             id="category_id"
             name="category_id"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
             required
         >
             <option value="">
@@ -82,7 +82,7 @@
         />
 
         @unless ($editing)
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 {{ __('Leave blank to generate automatically.') }}
             </p>
         @endunless
@@ -103,7 +103,7 @@
             id="description"
             name="description"
             rows="4"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
         >{{ old('description', $product->description ?? '') }}</textarea>
 
         <x-input-error
@@ -186,17 +186,17 @@
                 :value="__('Current Quantity')"
             />
 
-            <p class="mt-1 text-sm text-gray-700">
+            <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
                 {{ $product->quantity }}
             </p>
 
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                 {{ __('Stock can only be changed through stock movements.') }}
             </p>
         </div>
     @endif
 
-    <div>
+    <div x-data="{ fileName: '' }">
         <x-input-label
             for="image"
             :value="__('Product Image')"
@@ -207,8 +207,24 @@
             name="image"
             type="file"
             accept="image/*"
-            class="mt-1 block w-full text-sm text-gray-700"
+            class="sr-only"
+            @change="fileName = $event.target.files.length ? $event.target.files[0].name : ''"
         >
+
+        <div class="mt-1 flex min-h-11 items-center gap-3 rounded-md border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-800">
+            <label
+                for="image"
+                class="cursor-pointer rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+            >
+                {{ __('Choose File') }}
+            </label>
+
+            <span
+                class="min-w-0 flex-1 truncate text-sm text-gray-500 dark:text-gray-400"
+                x-text="fileName || @js(__('No file chosen'))"
+                dir="auto"
+            ></span>
+        </div>
 
         @if ($editing && $product->image_path)
             <img
@@ -240,11 +256,11 @@
                 name="is_active"
                 type="checkbox"
                 value="1"
-                class="rounded border-gray-300 text-indigo-600 shadow-sm"
+                class="rounded border-gray-300 text-indigo-600 shadow-sm dark:border-gray-600 dark:bg-gray-800"
                 @checked((bool) $isActive)
             >
 
-            <span class="ms-2 text-sm text-gray-700">
+            <span class="ms-2 text-sm text-gray-700 dark:text-gray-300">
                 {{ __('Active product') }}
             </span>
         </label>
@@ -266,7 +282,7 @@
 
         <a
             href="{{ route('products.index') }}"
-            class="text-sm text-gray-600 hover:text-gray-900"
+            class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
         >
             {{ __('Cancel') }}
         </a>

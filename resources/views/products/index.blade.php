@@ -52,7 +52,10 @@
                     >
                         @csrf
 
-                        <div class="min-w-64 flex-1">
+                        <div
+                            class="min-w-64 flex-1"
+                            x-data="{ fileName: '' }"
+                        >
                             <label
                                 for="products_csv"
                                 class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -66,8 +69,24 @@
                                 type="file"
                                 accept=".csv,.txt"
                                 required
-                                class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                                class="sr-only"
+                                @change="fileName = $event.target.files.length ? $event.target.files[0].name : ''"
                             >
+
+                            <div class="flex min-h-11 items-center gap-3 rounded-md border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-800">
+                                <label
+                                    for="products_csv"
+                                    class="cursor-pointer rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+                                >
+                                    {{ __('Choose File') }}
+                                </label>
+
+                                <span
+                                    class="min-w-0 flex-1 truncate text-sm text-gray-500 dark:text-gray-400"
+                                    x-text="fileName || @js(__('No file chosen'))"
+                                    dir="auto"
+                                ></span>
+                            </div>
 
                             @error('file')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-400">
@@ -365,7 +384,6 @@
                                                 onsubmit="return confirm('{{ __('Delete this product?') }}')"
                                             >
                                                 @csrf
-
                                                 @method('DELETE')
 
                                                 <button

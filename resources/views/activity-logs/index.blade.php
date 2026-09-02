@@ -99,28 +99,129 @@
 
                         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-900">
                             @forelse ($activityLogs as $activityLog)
+                                @php
+                                    $actorName = $activityLog->actor?->name ?? __('Deleted User');
+
+                                    $normalizedAction = str_replace(
+                                        '.',
+                                        ' ',
+                                        $activityLog->action
+                                    );
+
+                                    $invoiceReference = data_get(
+                                        $activityLog->subject,
+                                        'invoice_number'
+                                    );
+
+                                    if (! $invoiceReference) {
+                                        preg_match(
+                                            '/INV-[A-Za-z0-9-]+/',
+                                            (string) $activityLog->description,
+                                            $invoiceMatches
+                                        );
+
+                                        $invoiceReference = $invoiceMatches[0]
+                                            ?? (
+                                                $activityLog->subject_id
+                                                    ? '#'.$activityLog->subject_id
+                                                    : '-'
+                                            );
+                                    }
+
+                                    $paymentAmount = data_get(
+                                        $activityLog->subject,
+                                        'amount'
+                                    );
+
+                                    if ($paymentAmount === null) {
+                                        preg_match(
+                                            '/payment of\s+([0-9.,]+)/i',
+                                            (string) $activityLog->description,
+                                            $paymentMatches
+                                        );
+
+                                        $paymentAmount = $paymentMatches[1] ?? '-';
+                                    }
+
+                                    $localizedDescription = match ($normalizedAction) {
+                                        'invoice created' => __(
+                                            ':actor created invoice :invoice.',
+                                            [
+                                                'actor' => $actorName,
+                                                'invoice' => $invoiceReference,
+                                            ]
+                                        ),
+
+                                        'invoice confirmed' => __(
+                                            ':actor confirmed invoice :invoice.',
+                                            [
+                                                'actor' => $actorName,
+                                                'invoice' => $invoiceReference,
+                                            ]
+                                        ),
+
+                                        'invoice cancelled' => __(
+                                            ':actor cancelled invoice :invoice.',
+                                            [
+                                                'actor' => $actorName,
+                                                'invoice' => $invoiceReference,
+                                            ]
+                                        ),
+
+                                        'payment recorded' => __(
+                                            ':actor recorded a payment of :amount for invoice :invoice.',
+                                            [
+                                                'actor' => $actorName,
+                                                'amount' => $paymentAmount,
+                                                'invoice' => $invoiceReference,
+                                            ]
+                                        ),
+
+                                        'stock adjusted' => __(
+                                            ':actor adjusted stock.',
+                                            [
+                                                'actor' => $actorName,
+                                            ]
+                                        ),
+
+                                        default => $activityLog->description,
+                                    };
+
+                                    $subjectLabel = null;
+
+                                    if ($activityLog->subject) {
+                                        $subjectLabel = str(
+                                            class_basename(
+                                                $activityLog->subject_type
+                                            )
+                                        )
+                                            ->headline()
+                                            ->toString();
+                                    }
+                                @endphp
+
                                 <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-800/60">
                                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                                         {{ $activityLog->created_at->format('Y-m-d H:i:s') }}
                                     </td>
 
                                     <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ $activityLog->actor?->name ?? __('Deleted User') }}
+                                        {{ $actorName }}
                                     </td>
 
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300">
-                                            {{ __(str_replace('.', ' ', $activityLog->action)) }}
+                                            {{ __($normalizedAction) }}
                                         </span>
                                     </td>
 
                                     <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                                        {{ $activityLog->description }}
+                                        {{ $localizedDescription }}
                                     </td>
 
                                     <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                                         @if ($activityLog->subject)
-                                            {{ class_basename($activityLog->subject_type) }}
+                                            {{ __($subjectLabel) }}
                                             #{{ $activityLog->subject_id }}
                                         @else
                                             {{ __('Unavailable') }}
