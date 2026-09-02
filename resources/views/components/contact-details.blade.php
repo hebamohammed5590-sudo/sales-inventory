@@ -14,7 +14,7 @@
             @can('update', $record)
                 <a
                     href="{{ route($resource.'.edit', $record) }}"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                 >
                     {{ __('Edit') }}
                 </a>
@@ -80,7 +80,7 @@
 
                     <a
                         href="{{ route($resource.'.index') }}"
-                        class="inline-block text-sm text-indigo-600 hover:text-indigo-800"
+                        class="inline-block text-sm text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
                     >
                         {{ __('Back') }}
                     </a>

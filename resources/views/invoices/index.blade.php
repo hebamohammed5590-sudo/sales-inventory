@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
                 @if ($invoiceType === \App\Enums\InvoiceType::Sale)
                     {{ __('Sales Invoices') }}
                 @else
@@ -20,7 +20,7 @@
                             ]
                         )
                     ) }}"
-                    class="rounded-md border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-50"
+                    class="rounded-md border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-50 dark:border-green-500 dark:text-green-400 dark:hover:bg-green-900/30"
                 >
                     {{ __('Export CSV') }}
                 </a>
@@ -28,7 +28,7 @@
                 @can('create', [\App\Models\Invoice::class, $invoiceType])
                     <a
                         href="{{ route('invoices.create', ['type' => $invoiceType->value]) }}"
-                        class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                        class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                     >
                         {{ __('Add Invoice') }}
                     </a>
@@ -40,12 +40,12 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
             @if (session('success'))
-                <div class="rounded-lg bg-green-100 p-4 text-green-800">
+                <div class="rounded-lg bg-green-100 p-4 text-green-800 dark:bg-green-900/40 dark:text-green-300">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-900">
                 <form
                     method="GET"
                     action="{{ route('invoices.index', ['type' => $invoiceType->value]) }}"
@@ -76,7 +76,7 @@
                         <select
                             id="status"
                             name="status"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-400"
                         >
                             <option value="">
                                 {{ __('All Statuses') }}
@@ -100,7 +100,7 @@
 
                         <a
                             href="{{ route('invoices.index', ['type' => $invoiceType->value]) }}"
-                            class="text-sm text-gray-600 hover:text-gray-900"
+                            class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                         >
                             {{ __('Reset') }}
                         </a>
@@ -108,16 +108,16 @@
                 </form>
             </div>
 
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-900">
                 <div class="overflow-x-auto p-6">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                         <thead>
                             <tr>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Invoice Number') }}
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     @if ($invoiceType === \App\Enums\InvoiceType::Sale)
                                         {{ __('Customer') }}
                                     @else
@@ -125,36 +125,36 @@
                                     @endif
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Date') }}
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Total') }}
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Status') }}
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Created By') }}
                                 </th>
 
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                                     {{ __('Actions') }}
                                 </th>
                             </tr>
                         </thead>
 
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                             @forelse ($invoices as $invoice)
-                                <tr>
-                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">
+                                <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-800/60">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $invoice->invoice_number }}
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                                         @if ($invoiceType === \App\Enums\InvoiceType::Sale)
                                             {{ $invoice->customer?->name ?? '-' }}
                                         @else
@@ -162,11 +162,11 @@
                                         @endif
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                                         {{ $invoice->invoice_date->format('Y-m-d') }}
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $invoice->total }}
                                     </td>
 
@@ -174,19 +174,19 @@
                                         @php
                                             $statusClasses = match ($invoice->status) {
                                                 \App\Enums\InvoiceStatus::Draft
-                                                    => 'bg-gray-100 text-gray-800',
+                                                    => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
 
                                                 \App\Enums\InvoiceStatus::Confirmed
-                                                    => 'bg-blue-100 text-blue-800',
+                                                    => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
 
                                                 \App\Enums\InvoiceStatus::PartiallyPaid
-                                                    => 'bg-yellow-100 text-yellow-800',
+                                                    => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300',
 
                                                 \App\Enums\InvoiceStatus::Paid
-                                                    => 'bg-green-100 text-green-800',
+                                                    => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
 
                                                 \App\Enums\InvoiceStatus::Cancelled
-                                                    => 'bg-red-100 text-red-800',
+                                                    => 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
                                             };
                                         @endphp
 
@@ -195,7 +195,7 @@
                                         </span>
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
                                         {{ $invoice->user->name }}
                                     </td>
 
@@ -205,7 +205,7 @@
                                                 'type' => $invoiceType->value,
                                                 'invoice' => $invoice,
                                             ]) }}"
-                                            class="font-medium text-indigo-600 hover:text-indigo-800"
+                                            class="font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
                                         >
                                             {{ __('View') }}
                                         </a>
@@ -215,7 +215,7 @@
                                 <tr>
                                     <td
                                         colspan="7"
-                                        class="px-4 py-8 text-center text-sm text-gray-500"
+                                        class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400"
                                     >
                                         {{ __('No invoices found.') }}
                                     </td>

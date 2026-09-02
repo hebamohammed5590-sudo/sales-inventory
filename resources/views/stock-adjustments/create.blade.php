@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
                 {{ __('Add Stock Adjustment') }}
             </h2>
 
             <a
                 href="{{ route('stock-adjustments.index') }}"
-                class="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                class="text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
                 {{ __('Back to Adjustments') }}
             </a>
@@ -16,7 +16,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-900">
                 <div class="p-6">
                     <form
                         method="POST"
@@ -34,7 +34,7 @@
                             <select
                                 id="product_id"
                                 name="product_id"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                                 required
                             >
                                 <option value="">
@@ -77,7 +77,7 @@
                                 required
                             />
 
-                            <p class="mt-2 text-sm text-gray-500">
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
                                 {{ __('Use a positive number to add stock or a negative number to remove stock.') }}
                             </p>
 
@@ -98,7 +98,7 @@
                                 name="notes"
                                 rows="4"
                                 maxlength="1000"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                                 required
                             >{{ old('notes') }}</textarea>
 
@@ -115,7 +115,7 @@
 
                             <a
                                 href="{{ route('stock-adjustments.index') }}"
-                                class="text-sm text-gray-600 hover:text-gray-900"
+                                class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                             >
                                 {{ __('Cancel') }}
                             </a>

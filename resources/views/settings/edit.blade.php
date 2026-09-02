@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
             {{ __('Settings') }}
         </h2>
     </x-slot>
@@ -9,13 +9,13 @@
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
 
             @if (session('success'))
-                <div class="rounded-lg bg-green-100 p-4 text-green-800">
+                <div class="rounded-lg bg-green-100 p-4 text-green-800 dark:bg-green-900/40 dark:text-green-300">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if ($errors->any())
-                <div class="rounded-lg bg-red-100 p-4 text-red-800">
+                <div class="rounded-lg bg-red-100 p-4 text-red-800 dark:bg-red-900/40 dark:text-red-300">
                     <p class="font-medium">
                         {{ __('Please correct the following errors:') }}
                     </p>
@@ -39,8 +39,8 @@
                 @csrf
                 @method('PUT')
 
-                <div class="rounded-lg bg-white p-6 shadow-sm">
-                    <h3 class="mb-6 text-lg font-semibold text-gray-800">
+                <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-900">
+                    <h3 class="mb-6 text-lg font-semibold text-gray-800 dark:text-gray-100">
                         {{ __('Company Information') }}
                     </h3>
 
@@ -48,7 +48,7 @@
                         <div>
                             <label
                                 for="company_name"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Company Name') }}
                             </label>
@@ -59,14 +59,14 @@
                                 type="text"
                                 value="{{ old('company_name', $settings['company_name']) }}"
                                 required
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
 
                         <div>
                             <label
                                 for="company_phone"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Company Phone') }}
                             </label>
@@ -76,14 +76,14 @@
                                 name="company_phone"
                                 type="text"
                                 value="{{ old('company_phone', $settings['company_phone']) }}"
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
 
                         <div class="md:col-span-2">
                             <label
                                 for="company_address"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Company Address') }}
                             </label>
@@ -92,14 +92,14 @@
                                 id="company_address"
                                 name="company_address"
                                 rows="3"
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >{{ old('company_address', $settings['company_address']) }}</textarea>
                         </div>
 
                         <div class="md:col-span-2">
                             <label
                                 for="company_logo"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Company Logo') }}
                             </label>
@@ -108,7 +108,7 @@
                                 <img
                                     src="{{ asset('storage/' . $settings['company_logo']) }}"
                                     alt="{{ __('Company Logo') }}"
-                                    class="mb-3 h-20 w-auto rounded-md border object-contain"
+                                    class="mb-3 h-20 w-auto rounded-md border border-gray-200 object-contain dark:border-gray-700"
                                 >
                             @endif
 
@@ -117,14 +117,14 @@
                                 name="company_logo"
                                 type="file"
                                 accept=".jpg,.jpeg,.png,.webp"
-                                class="block w-full rounded-md border border-gray-300 px-3 py-2"
+                                class="block w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-lg bg-white p-6 shadow-sm">
-                    <h3 class="mb-6 text-lg font-semibold text-gray-800">
+                <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-900">
+                    <h3 class="mb-6 text-lg font-semibold text-gray-800 dark:text-gray-100">
                         {{ __('Financial Settings') }}
                     </h3>
 
@@ -132,7 +132,7 @@
                         <div>
                             <label
                                 for="currency_symbol"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Currency Symbol') }}
                             </label>
@@ -143,14 +143,14 @@
                                 type="text"
                                 value="{{ old('currency_symbol', $settings['currency_symbol']) }}"
                                 required
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
 
                         <div>
                             <label
                                 for="tax_rate"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Tax Rate %') }}
                             </label>
@@ -164,14 +164,14 @@
                                 step="0.01"
                                 value="{{ old('tax_rate', $settings['tax_rate']) }}"
                                 required
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
 
                         <div>
                             <label
                                 for="invoice_prefix"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Sales Invoice Prefix') }}
                             </label>
@@ -182,14 +182,14 @@
                                 type="text"
                                 value="{{ old('invoice_prefix', $settings['invoice_prefix']) }}"
                                 required
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
 
                         <div>
                             <label
                                 for="purchase_invoice_prefix"
-                                class="mb-2 block text-sm font-medium text-gray-700"
+                                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('Purchase Invoice Prefix') }}
                             </label>
@@ -200,21 +200,21 @@
                                 type="text"
                                 value="{{ old('purchase_invoice_prefix', $settings['purchase_invoice_prefix']) }}"
                                 required
-                                class="block w-full rounded-md border-gray-300 shadow-sm"
+                                class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                             >
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-lg bg-white p-6 shadow-sm">
-                    <h3 class="mb-6 text-lg font-semibold text-gray-800">
+                <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-900">
+                    <h3 class="mb-6 text-lg font-semibold text-gray-800 dark:text-gray-100">
                         {{ __('Inventory Settings') }}
                     </h3>
 
                     <div class="max-w-sm">
                         <label
                             for="low_stock_threshold"
-                            class="mb-2 block text-sm font-medium text-gray-700"
+                            class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                         >
                             {{ __('Low Stock Threshold') }}
                         </label>
@@ -227,7 +227,7 @@
                             step="1"
                             value="{{ old('low_stock_threshold', $settings['low_stock_threshold']) }}"
                             required
-                            class="block w-full rounded-md border-gray-300 shadow-sm"
+                            class="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                         >
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                 <div class="flex justify-end">
                     <button
                         type="submit"
-                        class="rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                        class="rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                     >
                         {{ __('Save Settings') }}
                     </button>
