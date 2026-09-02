@@ -97,14 +97,15 @@
                                 :value="__('Return Date')"
                             />
 
-                            <x-text-input
-                                id="return_date"
-                                name="return_date"
-                                type="date"
-                                class="mt-1 block w-full"
-                                :value="old('return_date', date('Y-m-d'))"
-                                :max="date('Y-m-d')"
-                            />
+                         <x-text-input
+    id="return_date"
+    name="return_date"
+    type="date"
+    class="mt-1 block w-full"
+    :value="old('return_date', date('Y-m-d'))"
+    :max="date('Y-m-d')"
+    :min="$invoice->invoice_date->format('Y-m-d')"
+/>
 
                             <x-input-error
                                 :messages="$errors->get('return_date')"

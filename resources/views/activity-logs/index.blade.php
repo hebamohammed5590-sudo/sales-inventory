@@ -142,6 +142,10 @@
 
                                         $paymentAmount = $paymentMatches[1] ?? '-';
                                     }
+                                    $productReturnReference =
+    $activityLog->subject instanceof \App\Models\ProductReturn
+        ? $activityLog->subject->return_number
+        : '-';
 
                                     $localizedDescription = match ($normalizedAction) {
                                         'invoice created' => __(
@@ -176,6 +180,14 @@
                                                 'invoice' => $invoiceReference,
                                             ]
                                         ),
+                                        'product return created' => __(
+    ':actor created product return :return for invoice :invoice.',
+    [
+        'actor' => $actorName,
+        'return' => $productReturnReference,
+        'invoice' => $invoiceReference,
+    ]
+),
 
                                         'stock adjusted' => __(
                                             ':actor adjusted stock.',

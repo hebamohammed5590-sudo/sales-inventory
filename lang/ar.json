@@ -322,5 +322,7 @@
     "Return Quantity": "كمية المرتجع",
     "No quantities are available to return.": "لا توجد كميات متاحة للإرجاع.",
     "Return subtotal is calculated from the original invoice item prices.": "يتم حساب إجمالي المرتجع من أسعار بنود الفاتورة الأصلية.",
-    "Product return created successfully.": "تم إنشاء مرتجع المنتجات بنجاح."
+    "Product return created successfully.": "تم إنشاء مرتجع المنتجات بنجاح.",
+    ":actor created product return :return for invoice :invoice.": "أنشأ :actor مرتجع المنتجات :return للفاتورة :invoice.",
+    "Return date cannot be before the invoice date.": "لا يمكن أن يكون تاريخ المرتجع قبل تاريخ الفاتورة."
 }

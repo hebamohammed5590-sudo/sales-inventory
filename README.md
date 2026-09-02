@@ -1,8 +1,8 @@
 # Sales & Inventory Management System
 
-A Laravel-based sales and inventory management system for managing products, customers, suppliers, invoices, payments, reports, stock movements, and business analytics.
+A Laravel-based sales and inventory management system for managing products, customers, suppliers, sales and purchase invoices, product returns, payments, reports, stock movements, and business analytics.
 
-The application includes role-based access control, English and Arabic localization, queued notifications, scheduled reporting, CSV import/export, and concurrency-safe stock operations.
+The application includes role-based access control, English and Arabic localization, persistent dark mode, global search, activity logging, queued notifications, scheduled reporting, CSV import/export, and concurrency-safe stock operations.
 
 ## Features
 
@@ -42,6 +42,8 @@ The application includes role-based access control, English and Arabic localizat
 - Protection against negative inventory.
 - Concurrency-safe sales confirmation.
 - Low-stock detection based on product reorder levels.
+- Product return stock restoration.
+- Immutable stock movement history.
 
 ### Sales and Purchase Invoices
 
@@ -54,6 +56,26 @@ The application includes role-based access control, English and Arabic localizat
 - Automatic stock updates when invoices are confirmed or cancelled.
 - Printable invoices with company information.
 - Server-side calculation of invoice totals.
+- Original invoice item prices preserved for product returns.
+- Sales invoices with existing product returns cannot be cancelled, preventing duplicate stock restoration.
+
+### Product Returns
+
+- Dedicated product return workflow linked to original sales invoices.
+- Partial product returns.
+- Multiple returns against the same invoice.
+- Cumulative returned quantities cannot exceed quantities originally sold.
+- Product return quantities automatically restore stock.
+- Stock movements use a dedicated return movement type.
+- Product returns are linked to stock movements through polymorphic relationships.
+- Return subtotals use the original invoice item unit prices.
+- Sequential return references such as `RET-2026-000001`.
+- Return dates cannot be before the original invoice date.
+- Future return dates are rejected.
+- Product returns can only be created for eligible sales invoices.
+- Completed product returns are immutable and cannot be edited or deleted.
+- Product return creation is recorded in the activity log.
+- Product return pages support Arabic localization and dark mode.
 
 ### Payments
 
@@ -78,6 +100,32 @@ The application includes role-based access control, English and Arabic localizat
 - Sales versus purchases chart.
 - Role-based visibility of purchase data.
 - Cached dashboard statistics with automatic invalidation.
+
+### Global Search
+
+Authenticated users can search supported application resources from the navigation bar.
+
+Search capabilities include:
+
+- Product names and SKUs.
+- Customer names and phone numbers.
+- Supplier names and phone numbers.
+- Invoice numbers.
+- Authorization-aware results based on the current user's role.
+- Result limits to keep search responses efficient.
+
+### Activity Log
+
+The application keeps an auditable activity history for important business actions, including:
+
+- Invoice creation.
+- Invoice confirmation.
+- Invoice cancellation.
+- Payment recording.
+- Stock adjustments.
+- Product return creation.
+
+Activity descriptions are localized for supported languages where applicable.
 
 ### Reports and CSV Exports
 
@@ -104,6 +152,16 @@ The application includes role-based access control, English and Arabic localizat
 - Language selection persisted in the session.
 - Right-to-left layout support for Arabic.
 - Left-to-right layout support for English.
+- Localized invoice states and stock movement labels.
+- Localized Product Return pages and activity descriptions.
+
+### Dark Mode
+
+- Persistent dark mode support.
+- Theme preference stored in the browser.
+- Dark mode supported across authenticated application pages.
+- Compatible with Arabic RTL and English LTR layouts.
+- Light and dark theme controls are available from the navigation bar.
 
 ### Application Settings
 
@@ -122,6 +180,7 @@ The application includes role-based access control, English and Arabic localizat
 - MySQL.
 - Blade templates.
 - Tailwind CSS.
+- Alpine.js.
 - Vite.
 - Chart.js.
 - Laravel database queues.
@@ -142,11 +201,9 @@ Install the following before setting up the application:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/hebamohammed5590-sudo/sales-inventory.git
 cd sales-inventory
 ```
-
-Replace `<repository-url>` with the actual repository address.
 
 ### 2. Install PHP Dependencies
 
@@ -364,11 +421,41 @@ On Linux, a cron entry can be used:
 | --- | --- |
 | `draft` | `confirmed`, `cancelled` |
 | `confirmed` | `partially_paid`, `paid`, `cancelled` |
-| `partially_paid` | `paid` |
+| `partially_paid` | `paid`, `cancelled` |
 | `paid` | None |
 | `cancelled` | None |
 
-Invalid transitions are rejected with a validation error.
+Invalid transitions are rejected.
+
+A sales invoice that already has one or more product returns cannot be cancelled, even when its normal state transition would otherwise allow cancellation.
+
+## Product Returns Workflow
+
+Product returns are separate business documents linked to their original sales invoices.
+
+Eligible source invoices must:
+
+- Be sales invoices.
+- Be in `confirmed`, `partially_paid`, or `paid` status.
+- Contain at least one quantity that has not already been fully returned.
+
+For every returned invoice item:
+
+```text
+remaining returnable quantity
+=
+original sold quantity
+-
+total quantity previously returned
+```
+
+A requested return quantity cannot exceed the remaining returnable quantity.
+
+Return creation is executed inside a database transaction. Relevant invoice records are locked to protect inventory and cumulative return quantities from concurrent changes.
+
+Return stock movements increase inventory and reference the Product Return document as their source.
+
+Product returns currently represent stock/document operations. They do not automatically create financial refund payments.
 
 ## Product CSV Import
 
@@ -388,7 +475,7 @@ Import behavior includes:
 - Rejecting direct stock quantity imports.
 - Supporting UTF-8 CSV files with or without a BOM.
 
-Stock quantities must be changed through supported stock movements, stock adjustments, or invoice confirmation.
+Stock quantities must be changed through supported stock movements, stock adjustments, invoice confirmation, invoice cancellation, or product returns.
 
 ## Reports
 
@@ -440,18 +527,26 @@ English pages render with left-to-right direction:
 
 ## Running Tests
 
-Run the complete test suite:
+Run the complete automated test suite:
 
 ```bash
 php artisan test
 ```
 
-Run individual test suites:
+Important targeted test suites include:
 
 ```bash
+php artisan test tests/Feature/ProductReturnServiceTest.php
+php artisan test tests/Feature/ProductReturnWebTest.php
+php artisan test tests/Feature/ProductReturnPolicyTest.php
+php artisan test tests/Feature/InvoiceServiceTest.php
+php artisan test tests/Feature/PaymentWebTest.php
+php artisan test tests/Feature/LocalizationTest.php
+php artisan test tests/Feature/DarkModeTest.php
+php artisan test tests/Feature/GlobalSearchTest.php
+php artisan test tests/Feature/ActivityLogTest.php
 php artisan test tests/Feature/ProductCsvImportTest.php
 php artisan test tests/Feature/SettingsWebTest.php
-php artisan test tests/Feature/LocalizationTest.php
 php artisan test tests/Feature/DailyReportCommandTest.php
 php artisan test tests/Feature/QueuedNotificationTest.php
 php artisan test tests/Feature/ConcurrentSalesTest.php
@@ -459,6 +554,62 @@ php artisan test tests/Feature/InvoiceStateMachineTest.php
 ```
 
 The regular automated tests use the PHPUnit testing database configuration.
+
+### Product Return Test Coverage
+
+Product Return automated coverage includes:
+
+- Partial stock restoration.
+- Multiple partial returns.
+- Over-return rejection.
+- Fully returned item rejection.
+- Invalid invoice type and status rejection.
+- Original invoice price preservation.
+- Product return number generation.
+- Stock movement creation and source linkage.
+- Activity log recording.
+- HTTP create and store workflow.
+- Guest authorization.
+- Manager and cashier access.
+- Product Return policy permissions.
+- Immutable update/delete behavior.
+- Return-date validation.
+- Invoice cancellation protection after a return.
+
+## Code Quality Checks
+
+Run Laravel Pint:
+
+```bash
+vendor/bin/pint --test
+```
+
+On Windows PowerShell:
+
+```powershell
+vendor\bin\pint --test
+```
+
+Build production frontend assets:
+
+```bash
+npm run build
+```
+
+Check Git whitespace errors:
+
+```bash
+git diff --check
+```
+
+A recommended final verification sequence is:
+
+```bash
+php artisan test
+vendor/bin/pint --test
+npm run build
+git diff --check
+```
 
 ## MySQL Concurrency Test
 
@@ -512,6 +663,12 @@ Inspect invoice routes:
 php artisan route:list --path=invoices
 ```
 
+Inspect Product Return routes:
+
+```bash
+php artisan route:list --name=product-returns
+```
+
 Inspect report routes:
 
 ```bash
@@ -530,7 +687,7 @@ Inspect migrations:
 php artisan migrate:status
 ```
 
-## Security Notes
+## Security and Data Integrity Notes
 
 - Never commit the `.env` file or production credentials.
 - Disable debug mode in production.
@@ -539,10 +696,23 @@ php artisan migrate:status
 - Run a queue worker to process queued notifications.
 - Configure the scheduler for production deployments.
 - Keep the concurrency testing database separate from production data.
+- Stock mutations are performed through controlled application services.
+- Product Return quantities are validated against cumulative previous returns.
+- Product Returns cannot be modified or deleted after creation.
+- Sales invoices with Product Returns cannot be cancelled.
+
+## Repository
+
+GitHub repository:
+
+```text
+https://github.com/hebamohammed5590-sudo/sales-inventory
+```
 
 ## License
 
 This project is built with the Laravel framework.
+
 ## Dashboard Screenshot
 
 ![Sales and Inventory Dashboard](docs/screenshots/dashboard.png)
