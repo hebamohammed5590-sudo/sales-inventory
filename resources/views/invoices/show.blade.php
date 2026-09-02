@@ -47,6 +47,27 @@
                     {{ __('Print Invoice') }}
 
                 </a>
+                @if (
+    $invoice->isSale()
+    && in_array(
+        $invoice->status,
+        [
+            \App\Enums\InvoiceStatus::Confirmed,
+            \App\Enums\InvoiceStatus::PartiallyPaid,
+            \App\Enums\InvoiceStatus::Paid,
+        ],
+        true
+    )
+)
+    @can('create', \App\Models\ProductReturn::class)
+        <a
+            href="{{ route('product-returns.create', $invoice) }}"
+            class="rounded-md bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-400"
+        >
+            {{ __('Create Product Return') }}
+        </a>
+    @endcan
+@endif
 
                 @can('confirm', $invoice)
 
@@ -387,6 +408,72 @@
                 <h3 class="mb-6 text-lg font-semibold text-gray-800 dark:text-gray-100">
 
                     {{ __('Invoice Items') }}
+                    @if ($invoice->isSale() && $invoice->productReturns->isNotEmpty())
+    <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-900">
+        <h3 class="mb-6 text-lg font-semibold text-gray-800 dark:text-gray-100">
+            {{ __('Previous Product Returns') }}
+        </h3>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3 text-start text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ __('Return Number') }}
+                        </th>
+
+                        <th class="px-4 py-3 text-start text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ __('Return Date') }}
+                        </th>
+
+                        <th class="px-4 py-3 text-start text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ __('Subtotal') }}
+                        </th>
+
+                        <th class="px-4 py-3 text-start text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ __('Created By') }}
+                        </th>
+
+                        <th class="px-4 py-3 text-start text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ __('Actions') }}
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                    @foreach ($invoice->productReturns->sortByDesc('id') as $productReturn)
+                        <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-800/60">
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ $productReturn->return_number }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {{ $productReturn->return_date->format('Y-m-d') }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {{ number_format($productReturn->subtotal, 2) }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {{ $productReturn->user->name }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm">
+                                <a
+                                    href="{{ route('product-returns.show', $productReturn) }}"
+                                    class="font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                >
+                                    {{ __('View') }}
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endif
 
                 </h3>
 

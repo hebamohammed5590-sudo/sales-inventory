@@ -82,6 +82,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class);
     }
 
+    public function productReturns(): HasMany
+    {
+        return $this->hasMany(ProductReturn::class);
+    }
+
     public function stockMovements(): MorphMany
     {
         return $this->morphMany(

@@ -316,6 +316,7 @@ class InvoiceController extends Controller
             'user',
             'stockMovements.user',
             'payments.user',
+            'productReturns.user',
         ]);
 
         return view(

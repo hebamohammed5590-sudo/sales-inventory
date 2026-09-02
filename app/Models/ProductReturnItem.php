@@ -6,14 +6,14 @@ use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class InvoiceItem extends Model
+class ProductReturnItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'invoice_id',
+        'product_return_id',
+        'invoice_item_id',
         'product_id',
         'quantity',
         'unit_price',
@@ -23,28 +23,30 @@ class InvoiceItem extends Model
     protected function casts(): array
     {
         return [
-            'quantity' => 'integer',
-
             'unit_price' => MoneyCast::class,
 
             'line_total' => MoneyCast::class,
         ];
     }
 
-    public function invoice(): BelongsTo
+    public function productReturn(): BelongsTo
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(
+            ProductReturn::class
+        );
+    }
+
+    public function invoiceItem(): BelongsTo
+    {
+        return $this->belongsTo(
+            InvoiceItem::class
+        );
     }
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productReturnItems(): HasMany
-    {
-        return $this->hasMany(
-            ProductReturnItem::class
+        return $this->belongsTo(
+            Product::class
         );
     }
 }

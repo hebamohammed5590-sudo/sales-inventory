@@ -3,11 +3,11 @@
     class="border-b border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900"
 >
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 justify-between">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="flex shrink-0 items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
                     </a>
@@ -22,6 +22,15 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    @can('viewAny', \App\Models\ProductReturn::class)
+                        <x-nav-link
+                            :href="route('product-returns.index')"
+                            :active="request()->routeIs('product-returns.*')"
+                        >
+                            {{ __('Product Returns') }}
+                        </x-nav-link>
+                    @endcan
+
                     @can('viewAny', \App\Models\ActivityLog::class)
                         <x-nav-link
                             :href="route('activity-logs.index')"
@@ -34,7 +43,7 @@
             </div>
 
             <!-- Search, Language and User Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:ms-6 sm:flex sm:items-center">
                 <!-- Desktop Theme Toggle -->
                 <button
                     type="button"
@@ -76,11 +85,17 @@
                         />
                     </svg>
 
-                    <span x-show="!$store.theme.dark" x-cloak>
+                    <span
+                        x-show="!$store.theme.dark"
+                        x-cloak
+                    >
                         {{ __('Dark Mode') }}
                     </span>
 
-                    <span x-show="$store.theme.dark" x-cloak>
+                    <span
+                        x-show="$store.theme.dark"
+                        x-cloak
+                    >
                         {{ __('Light Mode') }}
                     </span>
                 </button>
@@ -128,16 +143,21 @@
                     </button>
                 </form>
 
-                <x-dropdown align="right" width="48">
+                <x-dropdown
+                    align="right"
+                    width="48"
+                >
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-900 dark:text-gray-300 dark:hover:text-white"
                         >
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>
+                                {{ Auth::user()->name }}
+                            </div>
 
                             <div class="ms-1">
                                 <svg
-                                    class="fill-current h-4 w-4"
+                                    class="h-4 w-4 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
                                 >
@@ -157,7 +177,10 @@
                         </x-dropdown-link>
 
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form
+                            method="POST"
+                            action="{{ route('logout') }}"
+                        >
                             @csrf
 
                             <x-dropdown-link
@@ -192,6 +215,7 @@
                             stroke-width="2"
                             d="M4 6h16M4 12h16"
                         />
+
                         <path
                             :class="{'hidden': ! open, 'inline-flex': open }"
                             class="hidden"
@@ -211,7 +235,7 @@
         :class="{'block': open, 'hidden': ! open}"
         class="hidden sm:hidden"
     >
-        <div class="pt-2 pb-3 space-y-1">
+        <div class="space-y-1 pb-3 pt-2">
             <!-- Mobile Toggle -->
             <div class="px-4 pb-3">
                 <button
@@ -220,11 +244,17 @@
                     class="flex w-full items-center justify-between rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800"
                     :aria-pressed="$store.theme.dark"
                 >
-                    <span x-show="!$store.theme.dark" x-cloak>
+                    <span
+                        x-show="!$store.theme.dark"
+                        x-cloak
+                    >
                         {{ __('Dark Mode') }}
                     </span>
 
-                    <span x-show="$store.theme.dark" x-cloak>
+                    <span
+                        x-show="$store.theme.dark"
+                        x-cloak
+                    >
                         {{ __('Light Mode') }}
                     </span>
 
@@ -297,6 +327,15 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            @can('viewAny', \App\Models\ProductReturn::class)
+                <x-responsive-nav-link
+                    :href="route('product-returns.index')"
+                    :active="request()->routeIs('product-returns.*')"
+                >
+                    {{ __('Product Returns') }}
+                </x-responsive-nav-link>
+            @endcan
+
             @can('viewAny', \App\Models\ActivityLog::class)
                 <x-responsive-nav-link
                     :href="route('activity-logs.index')"
@@ -325,7 +364,10 @@
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form
+                    method="POST"
+                    action="{{ route('logout') }}"
+                >
                     @csrf
 
                     <x-responsive-nav-link

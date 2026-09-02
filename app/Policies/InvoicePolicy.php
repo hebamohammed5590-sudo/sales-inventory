@@ -84,6 +84,13 @@ class InvoicePolicy
             return false;
         }
 
+        if (
+            $invoice->isSale()
+            && $invoice->productReturns()->exists()
+        ) {
+            return false;
+        }
+
         return $invoice->status->canTransitionTo(
             InvoiceStatus::Cancelled
         );

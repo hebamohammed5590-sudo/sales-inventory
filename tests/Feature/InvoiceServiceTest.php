@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Services\InvoiceService;
+use App\Services\ProductReturnService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -194,6 +195,87 @@ class InvoiceServiceTest extends TestCase
         $this->assertSame(InvoiceStatus::Cancelled, $cancelledInvoice->status);
         $this->assertNotNull($cancelledInvoice->cancelled_at);
         $this->assertSame(10, $this->product->fresh()->quantity);
+    }
+
+    public function test_sales_invoice_with_product_return_cannot_be_cancelled(): void
+    {
+        $invoice = $this->service->create(
+            InvoiceType::Sale,
+            $this->user,
+            [
+                'customer_id' => $this->customer->id,
+                'items' => [
+                    [
+                        'product_id' => $this->product->id,
+                        'quantity' => 4,
+                    ],
+                ],
+            ]
+        );
+
+        $confirmedInvoice = $this->service->confirm(
+            $invoice,
+            $this->user
+        );
+
+        $this->assertSame(
+            6,
+            $this->product->fresh()->quantity
+        );
+
+        $confirmedInvoice->load('items');
+
+        $invoiceItem = $confirmedInvoice->items->first();
+
+        $returnService = app(
+            ProductReturnService::class
+        );
+
+        $productReturn = $returnService->create(
+            $confirmedInvoice,
+            $this->user,
+            [
+                'items' => [
+                    $invoiceItem->id => 1,
+                ],
+                'reason' => 'Customer returned one unit.',
+            ]
+        );
+
+        $this->assertNotNull(
+            $productReturn->id
+        );
+
+        $this->assertSame(
+            7,
+            $this->product->fresh()->quantity
+        );
+
+        try {
+            $this->service->cancel(
+                $confirmedInvoice->fresh(),
+                $this->user
+            );
+
+            $this->fail(
+                'Expected cancellation to fail because the sales invoice already has a product return.'
+            );
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey(
+                'invoice',
+                $exception->errors()
+            );
+        }
+
+        $this->assertSame(
+            7,
+            $this->product->fresh()->quantity
+        );
+
+        $this->assertSame(
+            InvoiceStatus::Confirmed,
+            $confirmedInvoice->fresh()->status
+        );
     }
 
     public function test_cannot_cancel_purchase_invoice_if_stock_becomes_negative(): void

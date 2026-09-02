@@ -8,6 +8,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductReturnController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
@@ -257,6 +258,36 @@ Route::middleware('auth')->group(function () {
                 ]
             )->name('customers.statement.export');
         });
+    Route::get(
+        'product-returns',
+        [
+            ProductReturnController::class,
+            'index',
+        ]
+    )->name('product-returns.index');
+
+    Route::get(
+        'product-returns/{productReturn}',
+        [
+            ProductReturnController::class,
+            'show',
+        ]
+    )->name('product-returns.show');
+    Route::get(
+        'invoices/sale/{invoice}/returns/create',
+        [
+            ProductReturnController::class,
+            'create',
+        ]
+    )->name('product-returns.create');
+
+    Route::post(
+        'invoices/sale/{invoice}/returns',
+        [
+            ProductReturnController::class,
+            'store',
+        ]
+    )->name('product-returns.store');
 
     Route::prefix('invoices/{type}')
         ->whereIn('type', [

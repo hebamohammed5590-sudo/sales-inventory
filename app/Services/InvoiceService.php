@@ -245,6 +245,15 @@ class InvoiceService
                 InvoiceStatus::Cancelled
             );
 
+            if (
+                $lockedInvoice->isSale()
+                && $lockedInvoice->productReturns()->exists()
+            ) {
+                throw ValidationException::withMessages([
+                    'invoice' => 'A sales invoice with product returns cannot be cancelled.',
+                ]);
+            }
+
             if (! $lockedInvoice->isDraft()) {
                 foreach ($lockedInvoice->items as $item) {
                     $movementType = $lockedInvoice->isSale()
@@ -255,10 +264,12 @@ class InvoiceService
                         ? $item->quantity
                         : -$item->quantity;
 
-                    // جلب كمية المنتج الحالية من قاعدة البيانات مباشرة لتفادي مشاكل الـ Cache
                     $currentStock = $item->product->fresh()->quantity;
 
-                    if ($lockedInvoice->isPurchase() && $currentStock < $item->quantity) {
+                    if (
+                        $lockedInvoice->isPurchase()
+                        && $currentStock < $item->quantity
+                    ) {
                         throw ValidationException::withMessages([
                             'stock' => 'Cannot cancel purchase invoice as product stock would become negative.',
                         ]);
@@ -266,15 +277,10 @@ class InvoiceService
 
                     $this->stockService->apply(
                         product: $item->product,
-
                         source: $lockedInvoice,
-
                         user: $user,
-
                         type: $movementType,
-
                         quantityChange: $quantityChange,
-
                         notes: sprintf(
                             'Invoice %s cancelled.',
                             $lockedInvoice->invoice_number
@@ -297,9 +303,7 @@ class InvoiceService
                     $user->name,
                     $lockedInvoice->invoice_number
                 ),
-                properties: [
-                    'new_status' => InvoiceStatus::Cancelled->value,
-                ]
+                properties: []
             );
 
             return $lockedInvoice->refresh()->load([
